@@ -738,9 +738,9 @@ function respawnPlayer(){
 function botUpdate(b,dt){
   b.bot.retarget-=dt;
   if(b.bot.retarget<=0){
-    // pick target: player mostly
-    b.bot.target=Math.random()<0.82?player:(bots.find(o=>o!==b&&o.alive));
-    b.bot.retarget=rand(1.2,2.6);
+    // pick target: player sometimes, bots mostly fight each other
+    b.bot.target=Math.random()<0.45?player:(bots.find(o=>o!==b&&o.alive));
+    b.bot.retarget=rand(1.4,3.0);
     b.bot.dir=Math.random()<0.5?-1:1;
     if(Math.random()<0.4)b.bot.dir*=-1;
     b.bot.strafeT=rand(0.6,1.6);
@@ -768,8 +768,8 @@ function botUpdate(b,dt){
       const los=traceShot([b.x,b.y+EYE,b.z],[Math.sin(b.yaw),0,-Math.cos(b.yaw)],b);
       if(los.body===tgt){
         if(b.fireCd<=0 && b.reload<=0 && b.weapon!=='melee'){
-          // fire a hit with probability based on skill & range
-          const hitP=clamp(b.skill*(1-dist/500),0.12,0.8);
+          // fire a hit with probability based on skill & range (lowered so player survives longer)
+          const hitP=clamp(b.skill*0.55*(1-dist/500),0.07,0.42);
           if(Math.random()<hitP){
             const aimY=b.yaw+rand(-1,1)*b.bot.aimErr;
             const fx=Math.sin(aimY),fz=-Math.cos(aimY);
@@ -1096,7 +1096,7 @@ function updateDPRCursor(){}
 function setCrossEnemy(on){
   $('#cross').classList.toggle('enemy',on);
 }
-const BOT_COUNT=7;
+const BOT_COUNT=4;
 let botCount=0;
 
 const SPREAD_UI=0.0;
@@ -1141,8 +1141,8 @@ function frame(now){
 
     mouseDX=0;mouseDY=0;
 
-    // idle regen
-    if(player.alive && player.hp<100) player.hp=Math.min(100,player.hp+dt*2.2);
+    // idle regen (a bit faster so you survive longer in multi-bot fights)
+    if(player.alive && player.hp<100) player.hp=Math.min(100,player.hp+dt*3.5);
   } else {
     for(const b of bots){ b.alive=false; b.deadT=0.02; }
   }
