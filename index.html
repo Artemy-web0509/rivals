@@ -820,40 +820,70 @@ function spawnBotFrom(b){
 
 /* ---------------- drawing ent ---------------- */
 function drawEnt(e,dt){
-  const runSwing=Math.max(0,Math.min(1,Math.hypot(e.vx,e.vz)/(WALK*0.8)));
-  const stepTime=e.step*6*runSwing+(e.meleeT>0?e.meleeT*8:0);
-  const gait=Math.sin(stepTime);
-  const legSwing=runSwing*0.28*gait;
-  const armSwing=runSwing*0.22*gait + (e.weapon!=='melee'?0.1:0);
-  const eye=e.y+EYE;
-  const crouch=e.crouch>0.5?0.35:0;
-  const hipY=e.y+0.36-crouch;
-  const torsoY=e.y+0.72-crouch;
-  const shoulderY=e.y+1.28-crouch;
-  const headC=e.y+1.6-crouch;
-  const bobX=0,bobY=0;
-  const sk=e.sprite, sh=e.shirt, pn=e.pants;
-  const lookX=Math.sin(e.yaw), lookZ=-Math.cos(e.yaw);
-  // legs
-  pushCube(DYN,[e.x-0.13+lookZ*legSwing,hipY-0.18,e.z-0.13-lookX*legSwing],[0.2,0.36,0.2],pn);
-  pushCube(DYN,[e.x+0.13-lookZ*legSwing,hipY-0.18,e.z+0.13+lookX*legSwing],[0.2,0.36,0.2],pn);
-  // torso
-  pushCube(DYN,[e.x,torsoY,e.z],[0.5,0.62,0.28],sh);
-  // head
-  pushCube(DYN,[e.x+lookX*0.06,headC,e.z+lookZ*0.06],[0.36,0.36,0.36],sk);
-  // arms
-  pushCube(DYN,[e.x+0.31,e.y+1.08-crouch+armSwing,e.z+lookZ*0.15],[0.13,0.55,0.13],sk);
-  pushCube(DYN,[e.x-0.31,e.y+1.08-crouch-armSwing,e.z-lookZ*0.15],[0.13,0.55,0.13],sk);
-  // weapon held (hand in front)
-  if(e.weapon!=='melee'||e.meleeT>0){
-    const wcolor=e.weapon==='sniper'?[0.15,0.2,0.3]:[0.1,0.13,0.18];
-    const wxs=e.weapon==='melee'?0.14:e.weapon==='sniper'?0.5:0.3;
-    const wys=e.weapon==='sniper'?0.12:0.11;
-    const fwd=e.weapon==='melee'?e.meleeT>0?0.6:0.4:0.45;
-    pushCube(DYN,[e.x+lookX*fwd,e.y+1.1-crouch+armSwing+0.05,e.z+lookZ*fwd],[wxs,wys,wys],wcolor);
+  const isSelf=e===player;
+  if(!isSelf){
+    const runSwing=Math.max(0,Math.min(1,Math.hypot(e.vx,e.vz)/(WALK*0.8)));
+    const stepTime=e.step*6*runSwing+(e.meleeT>0?e.meleeT*8:0);
+    const gait=Math.sin(stepTime);
+    const legSwing=runSwing*0.28*gait;
+    const armSwing=runSwing*0.22*gait + (e.weapon!=='melee'?0.1:0);
+    const eye=e.y+EYE;
+    const crouch=e.crouch>0.5?0.35:0;
+    const hipY=e.y+0.36-crouch;
+    const torsoY=e.y+0.72-crouch;
+    const shoulderY=e.y+1.28-crouch;
+    const headC=e.y+1.6-crouch;
+    const bobX=0,bobY=0;
+    const sk=e.sprite, sh=e.shirt, pn=e.pants;
+    const lookX=Math.sin(e.yaw), lookZ=-Math.cos(e.yaw);
+    // legs
+    pushCube(DYN,[e.x-0.13+lookZ*legSwing,hipY-0.18,e.z-0.13-lookX*legSwing],[0.2,0.36,0.2],pn);
+    pushCube(DYN,[e.x+0.13-lookZ*legSwing,hipY-0.18,e.z+0.13+lookX*legSwing],[0.2,0.36,0.2],pn);
+    // torso
+    pushCube(DYN,[e.x,torsoY,e.z],[0.5,0.62,0.28],sh);
+    // head
+    pushCube(DYN,[e.x+lookX*0.06,headC,e.z+lookZ*0.06],[0.36,0.36,0.36],sk);
+    // arms
+    pushCube(DYN,[e.x+0.31,e.y+1.08-crouch+armSwing,e.z+lookZ*0.15],[0.13,0.55,0.13],sk);
+    pushCube(DYN,[e.x-0.31,e.y+1.08-crouch-armSwing,e.z-lookZ*0.15],[0.13,0.55,0.13],sk);
+    // weapon held (hand in front)
+    if(e.weapon!=='melee'||e.meleeT>0){
+      const wcolor=e.weapon==='sniper'?[0.15,0.2,0.3]:[0.1,0.13,0.18];
+      const wxs=e.weapon==='melee'?0.14:e.weapon==='sniper'?0.5:0.3;
+      const wys=e.weapon==='sniper'?0.12:0.11;
+      const fwd=e.weapon==='melee'?e.meleeT>0?0.6:0.4:0.45;
+      pushCube(DYN,[e.x+lookX*fwd,e.y+1.1-crouch+armSwing+0.05,e.z+lookZ*fwd],[wxs,wys,wys],wcolor);
+    }
+  } else {
+    // viewmodel: оружие в руках, смещено вправо-вниз — не перекрывает обзор
+    const sy=Math.sin(camYaw), cy=Math.cos(camYaw);
+    const cp=Math.cos(camPitch), sp=Math.sin(camPitch);
+    const fx=sy*cp, fy=sp, fz=-cy*cp;
+    const rx=cy, rz=sy;
+    const ux=-rz*fy, uy=rz*fx-rx*fz, uz=rx*fy;
+    const ex=player.x, ey=player.y+EYE, ez=player.z;
+    if(player.weapon!=='melee'||player.meleeT>0){
+      const wcolor=player.weapon==='sniper'?[0.15,0.2,0.3]:[0.1,0.13,0.18];
+      const wxs=player.weapon==='melee'?0.14:player.weapon==='sniper'?0.5:0.3;
+      const vys=player.weapon==='sniper'?0.12:0.11;
+      const wlen=player.weapon==='sniper'?0.85:0.55;
+      const sway=0.04*Math.sin(player.step*6);
+      const offR=0.24, offD=-0.24;
+      // ствол вдоль взгляда, смещён вправо-вниз
+      const px=ex+fx*wlen+rx*offR;
+      const py=ey+fy*wlen+uy*offD+sway;
+      const pz=ez+fz*wlen+rz*offR;
+      pushCube(DYN,[px,py,pz],[wxs*0.55,vys*0.5,vys*0.5],wcolor);
+      // ложe возле камеры (полуобъём ствола)
+      const bx=ex+fx*(wlen*0.4)+rx*offR;
+      const by=ey+fy*(wlen*0.4)+uy*offD+sway;
+      const bz=ez+fz*(wlen*0.4)+rz*offR;
+      pushCube(DYN,[bx,by,bz],[wxs,vys,vys],wcolor);
+    }
   }
   // hp bar above head
-  if(e.isBot){
+  if(e.isBot&&!isSelf){
+    const headC=e.y+1.6-(e.crouch>0.5?0.35:0);
     e.label3d={x:e.x,y:headC+0.4,z:e.z};
   }
 }
