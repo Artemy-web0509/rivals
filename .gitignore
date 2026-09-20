@@ -1,0 +1,14 @@
+# runtime binaries (not source)
+node
+cloudflared
+node_modules/
+
+# tunnels / local infra
+.tunnel_pid
+.tunnel_url
+tunnel.pid
+tunnel.log
+server.log
+
+# OS / editor junk
+.DS_Storedeploy/

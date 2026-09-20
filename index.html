@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Учёт ЖКХ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 28px;
+      color: #38bdf8;
+      letter-spacing: 1px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 6px;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: #94a3b8;
+    }
+    .tab-btn:hover { background: #334155; color: #e2e8f0; }
+    .tab-btn.active { background: #38bdf8; color: #0f172a; }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      align-items: flex-end;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 4px; }
+    .form-group label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+    .form-group input, .form-group select {
+      background: #334155;
+      border: 1px solid #475569;
+      color: #e2e8f0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 130px;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+    .form-group select { cursor: pointer; }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-add { background: #22c55e; color: #fff; }
+    .btn-add:hover { background: #16a34a; }
+    .btn-save { background: #38bdf8; color: #0f172a; }
+    .btn-save:hover { background: #0ea5e9; }
+    .btn-cancel { background: #64748b; color: #fff; }
+    .btn-cancel:hover { background: #475569; }
+    .btn-del { background: #ef4444; color: #fff; padding: 6px 12px; font-size: 12px; }
+    .btn-del:hover { background: #dc2626; }
+    .btn-edit { background: #f59e0b; color: #0f172a; padding: 6px 12px; font-size: 12px; }
+    .btn-edit:hover { background: #d97706; }
+    .btn-export { background: #8b5cf6; color: #fff; margin-top: 16px; }
+    .btn-export:hover { background: #7c3aed; }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #1e293b;
+    }
+    th {
+      background: #334155;
+      padding: 12px 14px;
+      text-align: center;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      border-bottom: 2px solid #475569;
+      white-space: nowrap;
+    }
+    td {
+      padding: 10px 14px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+      font-size: 14px;
+    }
+    tr:hover td { background: #334155; }
+    tr.total-row td {
+      background: #334155;
+      font-weight: 700;
+      color: #38bdf8;
+      font-size: 15px;
+      border-top: 2px solid #475569;
+    }
+    td.editable { position: relative; }
+    td.editable input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #38bdf8;
+      color: #e2e8f0;
+      padding: 6px 8px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 14px;
+    }
+    td.editable input:focus { outline: none; }
+    td.actions { white-space: nowrap; }
+    td.actions button { margin: 0 2px; }
+
+    .sync-indicator {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+      z-index: 100;
+    }
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+    .sync-dot.syncing {
+      animation: pulse 0.8s infinite;
+      background: #f59e0b;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .summary {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px 24px;
+      flex: 1;
+      min-width: 140px;
+      text-align: center;
+    }
+    .summary-card .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .summary-card .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .summary-card .value.green { color: #22c55e; }
+    .summary-card .value.blue { color: #38bdf8; }
+    .summary-card .value.yellow { color: #f59e0b; }
+    .summary-card .value.red { color: #ef4444; }
+
+    .archive-header {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .archive-header .form-group select { width: 160px; }
+    .month-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .month-chip {
+      padding: 8px 16px;
+      border: 1px solid #475569;
+      border-radius: 20px;
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .month-chip:hover { border-color: #38bdf8; color: #38bdf8; }
+    .month-chip.active { background: #38bdf8; color: #0f172a; border-color: #38bdf8; font-weight: 600; }
+
+    .empty-msg {
+      color: #64748b;
+      padding: 60px 20px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row { flex-direction: column; }
+      .form-group input, .form-group select { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Учёт ЖКХ</h1>
+
+    <div class="sync-indicator">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncText">Подключение...</span>
+    </div>
+
+    <div class="tabs module-switch">
+      <button class="tab-btn active" id="moduleZhkhBtn" onclick="switchModule('zhkh')">ЖКХ</button>
+      <button class="tab-btn" id="moduleClubsBtn" onclick="switchModule('clubs')">Кружки</button>
+    </div>
+
+    <div id="module-zhkh">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('add')">Добавить</button>
+      <button class="tab-btn" onclick="switchTab('current')">Текущий год</button>
+      <button class="tab-btn" onclick="switchTab('archive')">Архив</button>
+      <button class="tab-btn" onclick="switchTab('all')">Всё</button>
+    </div>
+
+    <!-- TAB: Добавить -->
+    <div class="tab-content active" id="tab-add">
+      <div class="summary" id="summary"></div>
+      <div class="form-row" id="form">
+        <div class="form-group">
+          <label>Месяц</label>
+          <input type="month" id="fMonth" onchange="monthChanged()">
+        </div>
+        <div class="form-group">
+          <label>Водоканал (руб)</label>
+          <input type="number" id="fWater" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>КазЭнерго (руб)</label>
+          <input type="number" id="fHeat" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>ТатЭнерго (руб)</label>
+          <input type="number" id="fElec" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>УК (руб)</label>
+          <input type="number" id="fUK" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>Дельта / Охрана (руб)</label>
+          <input type="number" id="fDelta" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group">
+          <label>ТБО / Мусор (руб)</label>
+          <input type="number" id="fTBO" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group" style="justify-content:flex-end">
+          <button class="btn btn-add" onclick="addEntry()">+ Добавить</button>
+        </div>
+      </div>
+      <button class="btn btn-export" onclick="exportAllCSV()">Экспорт в CSV</button>
+    </div>
+
+    <!-- TAB: Текущий год -->
+    <div class="tab-content" id="tab-current">
+      <div class="summary" id="summaryCurrent"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Месяц</th>
+              <th>Водоканал</th>
+              <th>КазЭнерго</th>
+              <th>ТатЭнерго</th>
+              <th>УК</th>
+              <th>Дельта</th>
+              <th>ТБО</th>
+              <th>Итого</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyCurrent"></tbody>
+          <tfoot id="tableFootCurrent"></tfoot>
+        </table>
+      </div>
+      <button class="btn btn-export" onclick="exportAllCSV()">Экспорт в CSV</button>
+    </div>
+
+    <!-- TAB: Архив -->
+    <div class="tab-content" id="tab-archive">
+      <div class="archive-header">
+        <div class="form-group">
+          <label>Год</label>
+          <select id="archiveYear" onchange="renderArchive()"></select>
+        </div>
+        <div class="form-group">
+          <label>Все месяцы</label>
+          <button class="btn btn-add" onclick="archiveSelectAll()" style="padding:8px 16px;font-size:13px;">Выбрать все</button>
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+          <button class="btn btn-cancel" onclick="archiveDeselectAll()" style="padding:8px 16px;font-size:13px;">Снять все</button>
+        </div>
+      </div>
+      <div class="month-chips" id="monthChips"></div>
+      <div class="summary" id="summaryArchive"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Месяц</th>
+              <th>Водоканал</th>
+              <th>КазЭнерго</th>
+              <th>ТатЭнерго</th>
+              <th>УК</th>
+              <th>Дельта</th>
+              <th>ТБО</th>
+              <th>Итого</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyArchive"></tbody>
+          <tfoot id="tableFootArchive"></tfoot>
+        </table>
+      </div>
+      <button class="btn btn-export" onclick="exportArchiveCSV()">Экспорт в CSV</button>
+    </div>
+
+    <!-- TAB: Всё -->
+    <div class="tab-content" id="tab-all">
+      <div class="summary" id="summaryAll"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Месяц</th>
+              <th>Водоканал</th>
+              <th>КазЭнерго</th>
+              <th>ТатЭнерго</th>
+              <th>УК</th>
+              <th>Дельта</th>
+              <th>ТБО</th>
+              <th>Итого</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBodyAll"></tbody>
+          <tfoot id="tableFootAll"></tfoot>
+        </table>
+      </div>
+      <button class="btn btn-export" onclick="exportAllCSV()">Экспорт в CSV</button>
+    </div>
+    </div>
+
+    <div id="module-clubs" style="display:none">
+      <div class="summary" id="summaryClubs"></div>
+      <div class="form-row" id="clubsForm">
+        <div class="form-group">
+          <label>Месяц</label>
+          <input type="month" id="cfMonth" onchange="clubsFieldChanged()">
+        </div>
+        <div class="form-group">
+          <label>Кружок</label>
+          <select id="cfClub" onchange="clubsFieldChanged()">
+            <option value="robodom">Робототехника (Рободом)</option>
+            <option value="football">Футбол</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Сумма (руб)</label>
+          <input type="number" id="cfSum" placeholder="0" min="0" step="0.01">
+        </div>
+        <div class="form-group" style="justify-content:flex-end">
+          <button class="btn btn-add" onclick="addClubEntry()">+ Добавить</button>
+        </div>
+      </div>
+
+      <div class="tabs" id="clubsTabs">
+        <button class="tab-btn active" onclick="switchClubsTab('add')">Последние</button>
+        <button class="tab-btn" onclick="switchClubsTab('current')">Текущий год</button>
+        <button class="tab-btn" onclick="switchClubsTab('all')">Всё</button>
+      </div>
+
+      <div class="tab-content active" id="tab-clubs-add">
+        <div class="summary" id="summaryClubsAdd"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Месяц</th><th>Кружок</th><th>Сумма</th><th></th></tr></thead>
+            <tbody id="tableClubsAdd"></tbody>
+            <tfoot id="footClubsAdd"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-clubs-current">
+        <div class="summary" id="summaryClubsCurrent"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Месяц</th><th>Кружок</th><th>Сумма</th><th></th></tr></thead>
+            <tbody id="tableClubsCurrent"></tbody>
+            <tfoot id="footClubsCurrent"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-clubs-all">
+        <div class="summary" id="summaryClubsAll"></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Месяц</th><th>Кружок</th><th>Сумма</th><th></th></tr></thead>
+            <tbody id="tableClubsAll"></tbody>
+            <tfoot id="footClubsAll"></tfoot>
+          </table>
+        </div>
+      </div>
+
+      <button class="btn btn-export" onclick="exportClubsCSV()">Экспорт в CSV</button>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'zhkh_data';
+    const SUPABASE_URL = 'https://aynzmdyhjjwmkxcswixp.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5bnptZHloamp3bWt4Y3N3aXhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyNjI4MjcsImV4cCI6MjEwNDgzODgyN30.nr44Mtg4begxH1E9fR7ZL0bTycbQ_J0zJQQweWQGq7U';
+    const CLOUD_TABLE = 'zhkh_records';
+    const FIELDS = ['water','heat','elec','uk','delta','tbo'];
+    const FIELD_IDS = { water:'fWater', heat:'fHeat', elec:'fElec', uk:'fUK', delta:'fDelta', tbo:'fTBO' };
+    const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+
+    let data = [];
+    let editingId = null;
+    let activeTab = 'add';
+    let archiveSelectedMonths = new Set();
+    let currentFormMonth = null;
+    let activeModule = 'zhkh';
+    const monthDrafts = {};
+
+    // --- Data ---
+    function loadData() {
+      try { data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+      catch { data = []; }
+      data = normalizeData(data);
+    }
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showSync('Сохранение в облако...', false);
+      cloudReplace(payloadData())
+        .then(function(){ showSync('В облаке', true); })
+        .catch(function(){ showSync('Офлайн - только на устройстве', false); });
+    }
+    function normalizeData(list) {
+      const seen = new Set();
+      const out = [];
+      list.forEach((e, i) => {
+        if (!e || !e.month) return;
+        if (!e.id) e.id = 'auto' + i;
+        if (seen.has(e.id)) return;
+        seen.add(e.id);
+        out.push(e);
+      });
+      return out.sort((a,b) => a.month.localeCompare(b.month));
+    }
+    function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+    function entryTotal(e) { return FIELDS.reduce((s,f) => s + (e[f]||0), 0); }
+
+    function showSync(text, ok) {
+      document.getElementById('syncDot').classList.toggle('syncing', !ok);
+      document.getElementById('syncText').textContent = text;
+    }
+
+    // --- Cloud (Supabase) ---
+    function cloudHeaders() {
+      return {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json'
+      };
+    }
+    function payloadData() {
+      return { zhkh: data, clubs: normalizeClubs(clubData) };
+    }
+    function payloadParse(p) {
+      if (Array.isArray(p)) return { zhkh: p, clubs: [] };
+      if (p && typeof p === 'object') return { zhkh: Array.isArray(p.zhkh) ? p.zhkh : [], clubs: Array.isArray(p.clubs) ? p.clubs : [] };
+      return { zhkh: [], clubs: [] };
+    }
+    async function cloudFetch() {
+      const r = await fetch(SUPABASE_URL + '/rest/v1/' + CLOUD_TABLE + '?select=payload', {
+        method: 'GET',
+        headers: cloudHeaders()
+      });
+      if (!r.ok) throw new Error('db ' + r.status);
+      const rows = await r.json();
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i].payload !== undefined && rows[i].payload !== null) return rows[i].payload;
+      }
+      return {};
+    }
+    async function cloudReplace(list) {
+      const base = SUPABASE_URL + '/rest/v1/' + CLOUD_TABLE;
+      await fetch(base + '?id=not.is.null', { method: 'DELETE', headers: cloudHeaders() })
+        .then(r => { if (!r.ok) throw new Error('del ' + r.status); });
+      await fetch(base, {
+        method: 'POST',
+        headers: cloudHeaders(),
+        body: JSON.stringify({ payload: list })
+      }).then(r => { if (!r.ok && r.status !== 201 && r.status !== 204) throw new Error('ins ' + r.status); });
+    }
+    async function mergeFromCloud() {
+      try {
+        const cloud = payloadParse(await cloudFetch());
+        const zhkhMap = {};
+        normalizeData(cloud.zhkh).forEach(e => { zhkhMap[e.id] = e; });
+        let zhkhAdded = 0;
+        data.forEach(e => { if (!zhkhMap[e.id]) { zhkhMap[e.id] = e; zhkhAdded++; } });
+        data = Object.values(zhkhMap).sort((a,b) => a.month.localeCompare(b.month));
+
+        const clubsMap = {};
+        normalizeClubs(cloud.clubs).forEach(e => { clubsMap[e.id] = e; });
+        let clubsAdded = 0;
+        clubData.forEach(e => { if (!clubsMap[e.id]) { clubsMap[e.id] = e; clubsAdded++; } });
+        clubData = Object.values(clubsMap).sort((a,b) => (a.month + a.club).localeCompare(b.month + b.club));
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(CLUB_KEY, JSON.stringify(clubData));
+        if (zhkhAdded > 0 || clubsAdded > 0) cloudReplace(payloadData()).catch(() => {});
+        showSync('В облаке', true);
+        renderAll();
+        renderClubs();
+      } catch (e) {
+        showSync('Офлайн - только на устройстве', false);
+      }
+    }
+
+    // --- Tabs ---
+    function switchTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll('#module-zhkh .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#module-zhkh .tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (tab === 'current') renderCurrentYear();
+      if (tab === 'archive') renderArchive();
+      if (tab === 'all') renderAllData();
+    }
+
+    // --- Add form ---
+    function readFormValues() {
+      const values = {};
+      FIELDS.forEach(f => {
+        values[f] = parseFloat(document.getElementById(FIELD_IDS[f]).value) || 0;
+      });
+      return values;
+    }
+    function readFormRaw() {
+      const v = {};
+      FIELDS.forEach(f => { v[f] = document.getElementById(FIELD_IDS[f]).value; });
+      return v;
+    }
+    function setFormRaw(v) {
+      FIELDS.forEach(f => {
+        document.getElementById(FIELD_IDS[f]).value = (v && v[f] !== undefined) ? v[f] : '';
+      });
+    }
+    function saveDrafts() {
+      try { localStorage.setItem('zhkh_drafts', JSON.stringify(monthDrafts)); } catch (e) {}
+    }
+    function rememberDraft() {
+      const m = document.getElementById('fMonth').value;
+      if (!m) return;
+      monthDrafts[m] = readFormRaw();
+      saveDrafts();
+    }
+    function monthChanged() {
+      if (currentFormMonth) monthDrafts[currentFormMonth] = readFormRaw();
+      currentFormMonth = document.getElementById('fMonth').value;
+      if (currentFormMonth && monthDrafts[currentFormMonth]) setFormRaw(monthDrafts[currentFormMonth]);
+      else setFormRaw({});
+      saveDrafts();
+    }
+    function addEntry() {
+      const month = document.getElementById('fMonth').value;
+      if (!month) { alert('Выберите месяц'); return; }
+      const values = readFormValues();
+      if (!values || Object.values(values).every(v => v === 0)) {
+        alert('Введите хотя бы одну сумму.');
+        return;
+      }
+      const entry = { id: genId(), month };
+      FIELDS.forEach(f => { entry[f] = values[f]; });
+      data.push(entry);
+      data.sort((a,b) => a.month.localeCompare(b.month));
+      saveData();
+      renderAll();
+      rememberDraft();
+      // значения в форме не очищаем — остаются на экране
+    }
+
+    function removeEntry(id) {
+      if (!confirm('Удалить запись?')) return;
+      data = data.filter(e => e.id !== id);
+      saveData();
+      renderAll();
+    }
+    function startEdit(id) { editingId = id; renderAll(); }
+    function cancelEdit() { editingId = null; renderAll(); }
+    function saveEdit(id) {
+      const entry = data.find(e => e.id === id);
+      if (!entry) return;
+      const row = document.querySelector(`tr[data-id="${id}"]`);
+      FIELDS.forEach(f => {
+        const input = row.querySelector(`input[data-field="${f}"]`);
+        if (input) entry[f] = parseFloat(input.value) || 0;
+      });
+      editingId = null;
+      saveData();
+      renderAll();
+    }
+
+    function formatMonth(m) {
+      const [y, mo] = m.split('-');
+      return MONTH_NAMES[parseInt(mo)-1] + ' ' + y;
+    }
+
+    // --- Row HTML ---
+    function makeRow(e) {
+      const t = entryTotal(e);
+      const isEdit = editingId === e.id;
+      const label = formatMonth(e.month);
+      if (isEdit) {
+        return `<tr data-id="${e.id}">
+          <td>${label}</td>
+          ${FIELDS.map(f => `<td class="editable"><input type="number" data-field="${f}" value="${e[f]||0}" min="0" step="0.01"></td>`).join('')}
+          <td>${t.toFixed(2)}</td>
+          <td class="actions">
+            <button class="btn btn-save" onclick="saveEdit('${e.id}')">Сохр.</button>
+            <button class="btn btn-cancel" onclick="cancelEdit()">Отм.</button>
+          </td>
+        </tr>`;
+      }
+      return `<tr data-id="${e.id}">
+        <td>${label}</td>
+        ${FIELDS.map(f => `<td>${(e[f]||0).toFixed(2)}</td>`).join('')}
+        <td style="font-weight:600;color:#38bdf8">${t.toFixed(2)}</td>
+        <td class="actions">
+          <button class="btn btn-edit" onclick="startEdit('${e.id}')">Изм.</button>
+          <button class="btn btn-del" onclick="removeEntry('${e.id}')">Удл.</button>
+        </td>
+      </tr>`;
+    }
+    function makeFoot(entries) {
+      if (!entries.length) return '';
+      const grand = entries.reduce((s,e) => s + entryTotal(e), 0);
+      const byField = FIELDS.map(f => entries.reduce((s,e) => s + (e[f]||0), 0));
+      return `<tr class="total-row">
+        <td>ИТОГО</td>
+        ${byField.map(v => `<td>${v.toFixed(2)}</td>`).join('')}
+        <td>${grand.toFixed(2)}</td>
+        <td></td>
+      </tr>`;
+    }
+    function makeSummary(container, entries) {
+      const el = document.getElementById(container);
+      if (!entries.length) { el.innerHTML = ''; return; }
+      const total = entries.reduce((s,e) => s + entryTotal(e), 0);
+      const avg = total / entries.length;
+      const max = Math.max(...entries.map(e => entryTotal(e)));
+      const min = Math.min(...entries.map(e => entryTotal(e)));
+      el.innerHTML = `
+        <div class="summary-card"><div class="label">Записей</div><div class="value blue">${entries.length}</div></div>
+        <div class="summary-card"><div class="label">Общая сумма</div><div class="value green">${total.toFixed(2)} ₽</div></div>
+        <div class="summary-card"><div class="label">Среднее</div><div class="value yellow">${avg.toFixed(2)} ₽</div></div>
+        <div class="summary-card"><div class="label">Макс.</div><div class="value green">${max.toFixed(2)} ₽</div></div>
+        <div class="summary-card"><div class="label">Мин.</div><div class="value red">${min.toFixed(2)} ₽</div></div>
+      `;
+    }
+
+    // --- Current year ---
+    function renderCurrentYear() {
+      const year = new Date().getFullYear().toString();
+      const yearData = data.filter(e => e.month.startsWith(year));
+      const tbody = document.getElementById('tableBodyCurrent');
+      const tfoot = document.getElementById('tableFootCurrent');
+      if (!yearData.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-msg">Нет записей за ' + year + ' год</td></tr>';
+        tfoot.innerHTML = '';
+      } else {
+        tbody.innerHTML = yearData.map(makeRow).join('');
+        tfoot.innerHTML = makeFoot(yearData);
+      }
+      makeSummary('summaryCurrent', yearData);
+    }
+
+    // --- Archive ---
+    function getYears() {
+      const years = new Set();
+      data.forEach(e => years.add(e.month.slice(0,4)));
+      const now = new Date().getFullYear().toString();
+      years.add(now);
+      return Array.from(years).sort().reverse();
+    }
+    function renderYearSelect() {
+      const sel = document.getElementById('archiveYear');
+      const cur = sel.value;
+      sel.innerHTML = getYears().map(y => `<option value="${y}">${y}</option>`).join('');
+      if (cur && [...sel.options].some(o => o.value === cur)) sel.value = cur;
+    }
+    function renderMonthChips(year) {
+      const container = document.getElementById('monthChips');
+      const monthsInYear = data
+        .filter(e => e.month.startsWith(year))
+        .map(e => e.month)
+        .filter((v,i,a) => a.indexOf(v) === i)
+        .sort();
+      if (!monthsInYear.length) {
+        container.innerHTML = '<div class="empty-msg">Нет данных за этот год</div>';
+        return;
+      }
+      archiveSelectedMonths = new Set([...archiveSelectedMonths].filter(m => monthsInYear.includes(m)));
+      if (archiveSelectedMonths.size === 0) monthsInYear.forEach(m => archiveSelectedMonths.add(m));
+      container.innerHTML = monthsInYear.map(m => {
+        const active = archiveSelectedMonths.has(m) ? 'active' : '';
+        return `<div class="month-chip ${active}" onclick="toggleMonth('${m}')">${formatMonth(m)}</div>`;
+      }).join('');
+    }
+    function toggleMonth(m) {
+      if (archiveSelectedMonths.has(m)) archiveSelectedMonths.delete(m);
+      else archiveSelectedMonths.add(m);
+      renderArchive();
+    }
+    function archiveSelectAll() {
+      const year = document.getElementById('archiveYear').value;
+      data.filter(e => e.month.startsWith(year)).forEach(e => archiveSelectedMonths.add(e.month));
+      renderArchive();
+    }
+    function archiveDeselectAll() {
+      archiveSelectedMonths.clear();
+      renderArchive();
+    }
+    function renderArchive() {
+      renderYearSelect();
+      const year = document.getElementById('archiveYear').value;
+      renderMonthChips(year);
+      const filtered = data
+        .filter(e => e.month.startsWith(year) && archiveSelectedMonths.has(e.month))
+        .sort((a,b) => a.month.localeCompare(b.month));
+      const tbody = document.getElementById('tableBodyArchive');
+      const tfoot = document.getElementById('tableFootArchive');
+      if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-msg">Выберите месяцы для просмотра</td></tr>';
+        tfoot.innerHTML = '';
+      } else {
+        tbody.innerHTML = filtered.map(makeRow).join('');
+        tfoot.innerHTML = makeFoot(filtered);
+      }
+      makeSummary('summaryArchive', filtered);
+    }
+
+    // --- All data ---
+    function renderAllData() {
+      const tbody = document.getElementById('tableBodyAll');
+      const tfoot = document.getElementById('tableFootAll');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-msg">Нет записей</td></tr>';
+        tfoot.innerHTML = '';
+      } else {
+        tbody.innerHTML = data.map(makeRow).join('');
+        tfoot.innerHTML = makeFoot(data);
+      }
+      makeSummary('summaryAll', data);
+    }
+
+    // --- Export ---
+    function exportAllCSV() {
+      const all = data.slice().sort((a,b) => a.month.localeCompare(b.month));
+      downloadCSV(all, 'zhkh_all.csv');
+    }
+    function exportArchiveCSV() {
+      const year = document.getElementById('archiveYear').value;
+      const filtered = data
+        .filter(e => e.month.startsWith(year) && archiveSelectedMonths.has(e.month))
+        .sort((a,b) => a.month.localeCompare(b.month));
+      downloadCSV(filtered, 'zhkh_archive_' + year + '.csv');
+    }
+    function downloadCSV(entries, filename) {
+      if (!entries.length) { alert('Нет данных для экспорта'); return; }
+      let csv = 'Месяц,Водоканал,КазЭнерго,ТатЭнерго,УК,Дельта,ТБО,Итого\n';
+      entries.forEach(e => {
+        csv += `${formatMonth(e.month)},${e.water},${e.heat},${e.elec},${e.uk},${e.delta},${e.tbo},${entryTotal(e).toFixed(2)}\n`;
+      });
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+    }
+
+    // --- Render all ---
+    function renderAll() {
+      makeSummary('summary', data.slice(-6));
+      if (activeTab === 'current') renderCurrentYear();
+      if (activeTab === 'archive') renderArchive();
+      if (activeTab === 'all') renderAllData();
+    }
+
+    // --- Кружки ---
+    const CLUB_NAMES = { robodom: 'Робототехника (Рободом)', football: 'Футбол' };
+    const CLUB_KEY = 'zhkh_clubs';
+    let clubData = [];
+    let activeClubsTab = 'add';
+    let editingClubId = null;
+    let clubsFieldKey = null;
+    const clubDrafts = {};
+
+    function loadClubData() {
+      try { clubData = JSON.parse(localStorage.getItem(CLUB_KEY)) || []; }
+      catch { clubData = []; }
+      clubData = normalizeClubs(clubData);
+    }
+    function saveClubData() {
+      localStorage.setItem(CLUB_KEY, JSON.stringify(clubData));
+      showSync('Сохранение в облако...', false);
+      cloudReplace(payloadData())
+        .then(function(){ showSync('В облаке', true); })
+        .catch(function(){ showSync('Офлайн - только на устройстве', false); });
+    }
+    function normalizeClubs(list) {
+      const seen = new Set();
+      const out = [];
+      list.forEach((e, i) => {
+        if (!e || !e.month || !e.club) return;
+        if (!e.id) e.id = 'cauto' + i;
+        if (seen.has(e.id)) return;
+        seen.add(e.id);
+        out.push(e);
+      });
+      return out.sort((a,b) => (a.month + a.club).localeCompare(b.month + b.club));
+    }
+    function clubName(c) { return CLUB_NAMES[c] || c; }
+    function clubEntrySum(e) { return parseFloat(e.sum) || 0; }
+
+    function switchModule(m) {
+      activeModule = m;
+      document.getElementById('moduleZhkhBtn').classList.toggle('active', m === 'zhkh');
+      document.getElementById('moduleClubsBtn').classList.toggle('active', m === 'clubs');
+      document.getElementById('module-zhkh').style.display = m === 'zhkh' ? 'block' : 'none';
+      document.getElementById('module-clubs').style.display = m === 'clubs' ? 'block' : 'none';
+      if (m === 'zhkh') renderAll();
+      if (m === 'clubs') renderClubs();
+    }
+    function switchClubsTab(tab) {
+      activeClubsTab = tab;
+      document.querySelectorAll('#clubsTabs .tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#module-clubs .tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-clubs-' + tab).classList.add('active');
+      renderClubs();
+    }
+
+    function readClubField() { return document.getElementById('cfSum').value; }
+    function setClubField(v) { document.getElementById('cfSum').value = (v === undefined ? '' : v); }
+    function saveClubDrafts() {
+      try { localStorage.setItem('zhkh_club_drafts', JSON.stringify(clubDrafts)); } catch (e) {}
+    }
+    function clubsFieldChanged() {
+      const m = document.getElementById('cfMonth').value;
+      const c = document.getElementById('cfClub').value;
+      const key = m ? m + '_' + c : null;
+      if (clubsFieldKey && clubsFieldKey !== key) clubDrafts[clubsFieldKey] = readClubField();
+      clubsFieldKey = key;
+      setClubField(key ? (clubDrafts[key] || '') : '');
+      saveClubDrafts();
+    }
+    function rememberClubDraft() {
+      const m = document.getElementById('cfMonth').value;
+      const c = document.getElementById('cfClub').value;
+      if (!m) return;
+      clubsFieldKey = m + '_' + c;
+      clubDrafts[clubsFieldKey] = readClubField();
+      saveClubDrafts();
+    }
+
+    function addClubEntry() {
+      const month = document.getElementById('cfMonth').value;
+      const club = document.getElementById('cfClub').value;
+      const sum = parseFloat(document.getElementById('cfSum').value) || 0;
+      if (!month) { alert('Выберите месяц'); return; }
+      if (sum <= 0) { alert('Введите сумму.'); return; }
+      clubData.push({ id: genId(), month, club, sum });
+      clubData = normalizeClubs(clubData);
+      saveClubData();
+      renderClubs();
+      rememberClubDraft();
+    }
+    function removeClubEntry(id) {
+      if (!confirm('Удалить запись?')) return;
+      clubData = clubData.filter(e => e.id !== id);
+      saveClubData();
+      renderClubs();
+    }
+    function startEditClub(id) { editingClubId = id; renderClubs(); }
+    function cancelEditClub() { editingClubId = null; renderClubs(); }
+    function saveEditClub(id) {
+      const entry = clubData.find(e => e.id === id);
+      if (!entry) return;
+      const row = document.querySelector('#module-clubs tr[data-id="' + id + '"]');
+      const input = row.querySelector('input[data-field="sum"]');
+      if (input) entry.sum = parseFloat(input.value) || 0;
+      editingClubId = null;
+      saveClubData();
+      renderClubs();
+    }
+
+    function makeClubRow(e) {
+      const isEdit = editingClubId === e.id;
+      const label = formatMonth(e.month);
+      const cName = clubName(e.club);
+      const sum = clubEntrySum(e);
+      const actions = isEdit
+        ? `<button class="btn btn-save" onclick="saveEditClub('${e.id}')">Сохр.</button>
+           <button class="btn btn-cancel" onclick="cancelEditClub()">Отм.</button>`
+        : `<button class="btn btn-edit" onclick="startEditClub('${e.id}')">Изм.</button>
+           <button class="btn btn-del" onclick="removeClubEntry('${e.id}')">Удл.</button>`;
+      const sumCell = isEdit
+        ? `<td class="editable"><input type="number" data-field="sum" value="${sum}" min="0" step="0.01"></td>`
+        : `<td>${sum.toFixed(2)}</td>`;
+      return `<tr data-id="${e.id}">
+        <td>${label}</td>
+        <td>${cName}</td>
+        ${sumCell}
+        <td class="actions">${actions}</td>
+      </tr>`;
+    }
+    function makeClubFoot(entries) {
+      if (!entries.length) return '';
+      const total = entries.reduce((s,e) => s + clubEntrySum(e), 0);
+      const per = {};
+      entries.forEach(e => { per[e.club] = (per[e.club] || 0) + clubEntrySum(e); });
+      const cells = Object.keys(per).length
+        ? Object.keys(per).map(c => clubName(c) + ': ' + per[c].toFixed(2)).join(' + ')
+        : '';
+      return `<tr class="total-row">
+        <td colspan="2">ИТОГО (${cells})</td>
+        <td>${total.toFixed(2)}</td>
+        <td></td>
+      </tr>`;
+    }
+    function makeClubSummary(container, entries) {
+      const el = document.getElementById(container);
+      if (!entries.length) { el.innerHTML = ''; return; }
+      const total = entries.reduce((s,e) => s + clubEntrySum(e), 0);
+      const rob = entries.filter(e => e.club === 'robodom').reduce((s,e) => s + clubEntrySum(e), 0);
+      const foot = entries.filter(e => e.club === 'football').reduce((s,e) => s + clubEntrySum(e), 0);
+      el.innerHTML = `
+        <div class="summary-card"><div class="label">Записей</div><div class="value blue">${entries.length}</div></div>
+        <div class="summary-card"><div class="label">Рободом</div><div class="value yellow">${rob.toFixed(2)} ₽</div></div>
+        <div class="summary-card"><div class="label">Футбол</div><div class="value green">${foot.toFixed(2)} ₽</div></div>
+        <div class="summary-card"><div class="label">Всего</div><div class="value green">${total.toFixed(2)} ₽</div></div>
+      `;
+    }
+    function renderClubsList(tbodyId, footId, entries) {
+      const tbody = document.getElementById(tbodyId);
+      const tfoot = document.getElementById(footId);
+      if (!entries.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="empty-msg">Нет записей</td></tr>';
+        tfoot.innerHTML = '';
+      } else {
+        tbody.innerHTML = entries.map(makeClubRow).join('');
+        tfoot.innerHTML = makeClubFoot(entries);
+      }
+    }
+    function renderClubs() {
+      const year = new Date().getFullYear().toString();
+      const yearData = clubData.filter(e => e.month.startsWith(year));
+      renderClubsList('tableClubsAdd', 'footClubsAdd', clubData.slice(-6).reverse());
+      renderClubsList('tableClubsCurrent', 'footClubsCurrent', yearData);
+      renderClubsList('tableClubsAll', 'footClubsAll', clubData);
+      makeClubSummary('summaryClubs', clubData);
+      makeClubSummary('summaryClubsAdd', clubData.slice(-6));
+      makeClubSummary('summaryClubsCurrent', yearData);
+      makeClubSummary('summaryClubsAll', clubData);
+    }
+    function exportClubsCSV() {
+      const all = clubData.slice().sort((a,b) => (a.month + a.club).localeCompare(b.month + b.club));
+      if (!all.length) { alert('Нет данных для экспорта'); return; }
+      let csv = 'Месяц,Кружок,Сумма\n';
+      all.forEach(e => {
+        csv += `${formatMonth(e.month)},${clubName(e.club)},${clubEntrySum(e).toFixed(2)}\n`;
+      });
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'zhkh_clubs.csv';
+      a.click();
+    }
+
+    // --- Cross-tab sync on the same device ---
+    window.addEventListener('storage', e => {
+      if (e.key === STORAGE_KEY) { loadData(); renderAll(); }
+      if (e.key === CLUB_KEY) { loadClubData(); renderClubs(); }
+    });
+
+    // --- Init ---
+    loadData();
+    loadClubData();
+    renderAll();
+    renderClubs();
+    mergeFromCloud();
+    const now = new Date();
+    document.getElementById('fMonth').value = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+    currentFormMonth = document.getElementById('fMonth').value;
+    try { Object.assign(monthDrafts, JSON.parse(localStorage.getItem('zhkh_drafts') || '{}')); } catch (e) {}
+    if (monthDrafts[currentFormMonth]) setFormRaw(monthDrafts[currentFormMonth]);
+    document.getElementById('cfMonth').value = currentFormMonth;
+    try { Object.assign(clubDrafts, JSON.parse(localStorage.getItem('zhkh_club_drafts') || '{}')); } catch (e) {}
+    clubsFieldKey = currentFormMonth + '_' + document.getElementById('cfClub').value;
+    if (clubDrafts[clubsFieldKey]) setClubField(clubDrafts[clubsFieldKey]);
+  </script>
+</body>
+</html>
