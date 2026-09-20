@@ -867,8 +867,8 @@ function camMove(dt,keysHeld){
   let mx=0,mz=0;
   if(fw){mx+=sin*fw;mz-=cos*fw;}
   if(st){mx+=cos*st;mz+=sin*st;}
-  if(!player.alive){
-camYaw+=mouseDX*SENS; camPitch=clamp(camPitch-mouseDY*SENS,-1.5,1.5);
+if(!player.alive){
+ applyLook(dt);
     return;
   }
   let jump=keysHeld[32], crouch=keysHeld[17], dash=false;
@@ -887,7 +887,7 @@ camYaw+=mouseDX*SENS; camPitch=clamp(camPitch-mouseDY*SENS,-1.5,1.5);
   // crouch
   player.crouch=crouch?1:0;
   updatePhysics(player,dt,{mx,mz,jump,crouch});
-  camYaw+=mouseDX*SENS; camPitch=clamp(camPitch+mouseDY*SENS,-1.5,1.5);
+ applyLook(dt);
 }
 function dashTrail(){
   for(let i=0;i<5;i++)parts.push({x:player.x+rand(-0.3,0.3),y:player.y+rand(0,1.6),z:player.z+rand(-0.3,0.3),vx:rand(-1,1),vy:rand(0,2),vz:rand(-1,1),t:0,col:[0.3,0.9,1]});
@@ -895,11 +895,32 @@ function dashTrail(){
 
 /* ---------------- input ---------------- */
 let SENS=0.0022, mouseDX=0, mouseDY=0, locked=false, lockOK=false;
+let lastMX=-1, lastMY=-1;
 let hasStarted=false;
+function tryPointerLock(){
+  if(!canvas.requestPointerLock)return;
+  try{
+    const p=canvas.requestPointerLock();
+    if(p&&p.catch)p.catch(()=>{ lockOK=false; });
+    lockOK=true;
+  }catch(e){ lockOK=false; }
+}
 addEventListener('mousemove',ev=>{
-  // без pointer lock движение мыши допустимо как fallback (lockOK=false)
+  lastMX=ev.clientX; lastMY=ev.clientY;
+  if(!(ev.buttons&1))holdFire=false; // пропущенный mouseup не должен стрелять вечно
   mouseDX+=ev.movementX; mouseDY+=ev.movementY;
 });
+// fallback-камера без pointer lock: поворот по смещению курсора от центра (edge-look)
+function applyLook(dt){
+  if(locked||document.pointerLockElement===canvas){
+    camYaw+=mouseDX*SENS; camPitch=clamp(camPitch-mouseDY*SENS,-1.5,1.5);
+  } else if(hasStarted){
+    const nx=clamp((lastMX-VW/2)/(VW/2),-1,1);
+    const ny=clamp((lastMY-VH/2)/(VH/2),-1,1);
+    const k=(dt||0.016)*2.3;
+    camYaw+=nx*k; camPitch=clamp(camPitch-ny*k,-1.5,1.5);
+  }
+}
 addEventListener('pointerlockerror',()=>{ lockOK=false; });
 addEventListener('pointerlockchange',()=>{
   locked=document.pointerLockElement===canvas;
@@ -911,19 +932,19 @@ addEventListener('pointerlockchange',()=>{
   }
 });
 function startGame(){
-  if(hasStarted)return;
   hasStarted=true;
   $('#menu').classList.add('hid');
   $('#hud').classList.remove('hid');
   game.pause=false;
   ac(); initBotsNow(); playSfx('start');
-  // захват указателя (может не пройти — fallback выше позволит играть без lock)
-  try{ lockOK=true; const p=canvas.requestPointerLock&&canvas.requestPointerLock(); if(p&&p.catch)p.catch(()=>{lockOK=false;}); }catch(e){ lockOK=false; }
+  tryPointerLock();
 }
 $('#play').addEventListener('click',startGame);
 function initBotsNow(){ if(bots.length>=BOT_COUNT)return; while(bots.length<BOT_COUNT)spawnBot(); }
 addEventListener('mousedown',ev=>{
   if(!hasStarted)return;
+  // без захвата — повторная попытка pointer lock по клику на холст
+  if(!locked&&ev.target===canvas)tryPointerLock();
   if(ev.button===0){
     if(player.weapon==='melee'&&player.meleeT<=0)shootWeapon(player,camYaw,camPitch);
     else if(W[player.weapon].auto){ holdFire=true; }
@@ -931,8 +952,11 @@ addEventListener('mousedown',ev=>{
   }
 });
 addEventListener('mouseup',ev=>{ if(ev.button===0)holdFire=false; });
+addEventListener('mouseleave',()=>{ holdFire=false; });
+addEventListener('blur',()=>{ holdFire=false; });
 addEventListener('wheel',ev=>{
-  if(!hasStarted)return;
+  if(!hasStarted||ev.ctrlKey)return;
+  ev.preventDefault();
   const idx=W_ORDER.indexOf(player.weapon);
   const ni=(idx+(ev.deltaY>0?1:-1)+W_ORDER.length)%W_ORDER.length;
   switchWeapon(W_ORDER[ni]);
