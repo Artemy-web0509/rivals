@@ -894,21 +894,36 @@ function dashTrail(){
 }
 
 /* ---------------- input ---------------- */
-let SENS=0.0022, mouseDX=0, mouseDY=0, locked=false;
+let SENS=0.0022, mouseDX=0, mouseDY=0, locked=false, lockOK=false;
 let hasStarted=false;
 addEventListener('mousemove',ev=>{
-  if(!locked)return;
+  // без pointer lock движение мыши допустимо как fallback (lockOK=false)
   mouseDX+=ev.movementX; mouseDY+=ev.movementY;
 });
+addEventListener('pointerlockerror',()=>{ lockOK=false; });
 addEventListener('pointerlockchange',()=>{
   locked=document.pointerLockElement===canvas;
-  if(!locked&&hasStarted){ game.pause=true; $('#menu').classList.remove('hid'); $('#menu').querySelector('.btn').textContent='ПРОДОЛЖИТЬ'; }
-  else if(locked){ game.pause=false; $('#menu').classList.add('hid'); }
+  if(locked){ lockOK=true; game.pause=false; $('#menu').classList.add('hid'); }
+  else if(lockOK&&hasStarted){
+    // пользователь вышел из lock (Esc) — пауза
+    game.pause=true; $('#menu').classList.remove('hid');
+    $('#menu').querySelector('.btn').textContent='ПРОДОЛЖИТЬ';
+  }
 });
-$('#play').addEventListener('click',()=>{ hasStarted=true; ac(); canvas.requestPointerLock&&canvas.requestPointerLock(); $('#hud').classList.remove('hid'); initBotsNow(); playSfx('start'); });
+function startGame(){
+  if(hasStarted)return;
+  hasStarted=true;
+  $('#menu').classList.add('hid');
+  $('#hud').classList.remove('hid');
+  game.pause=false;
+  ac(); initBotsNow(); playSfx('start');
+  // захват указателя (может не пройти — fallback выше позволит играть без lock)
+  try{ lockOK=true; const p=canvas.requestPointerLock&&canvas.requestPointerLock(); if(p&&p.catch)p.catch(()=>{lockOK=false;}); }catch(e){ lockOK=false; }
+}
+$('#play').addEventListener('click',startGame);
 function initBotsNow(){ if(bots.length>=BOT_COUNT)return; while(bots.length<BOT_COUNT)spawnBot(); }
 addEventListener('mousedown',ev=>{
-  if(!locked)return;
+  if(!hasStarted)return;
   if(ev.button===0){
     if(player.weapon==='melee'&&player.meleeT<=0)shootWeapon(player,camYaw,camPitch);
     else if(W[player.weapon].auto){ holdFire=true; }
@@ -917,7 +932,7 @@ addEventListener('mousedown',ev=>{
 });
 addEventListener('mouseup',ev=>{ if(ev.button===0)holdFire=false; });
 addEventListener('wheel',ev=>{
-  if(!locked)return;
+  if(!hasStarted)return;
   const idx=W_ORDER.indexOf(player.weapon);
   const ni=(idx+(ev.deltaY>0?1:-1)+W_ORDER.length)%W_ORDER.length;
   switchWeapon(W_ORDER[ni]);
@@ -926,11 +941,11 @@ addEventListener('keydown',ev=>{
   keys[ev.keyCode]=true;
   if(ev.keyCode===16&&!ev.repeat){ KeysPressed.dashPress=true; KeysPressed.dashUsedThisPress=false; }
   if(ev.keyCode===18){ } // alt
-  if(ev.keyCode===32&&!player.grounded&&!ev.repeat&&locked){ /* no double jump */ }
+  if(ev.keyCode===32&&!player.grounded&&!ev.repeat){ /* no double jump */ }
   const sl=[49,50,51,52,53,54];
   const si=sl.indexOf(ev.keyCode);
-  if(si>=0&&locked)switchWeapon(W_ORDER[si]);
-  if(ev.keyCode===82&&locked)startReload(player);
+  if(si>=0)switchWeapon(W_ORDER[si]);
+  if(ev.keyCode===82)startReload(player);
   if(ev.keyCode===9){ ev.preventDefault(); $('#board').classList.remove('hid'); updateBoard(); }
 });
 addEventListener('keyup',ev=>{keys[ev.keyCode]=false;});
@@ -1043,7 +1058,7 @@ function frame(now){
   const t=now/1000;
   game.time=t;
 
-  if(locked&&!game.pause&&!game.over){
+  if(!game.pause&&!game.over&&hasStarted){
     // player spawning
     if(!player.alive){
       game.respawn-=dt;
