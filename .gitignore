@@ -11,4 +11,7 @@ tunnel.log
 server.log
 
 # OS / editor junk
-.DS_Storedeploy/
+.DS_Store
+
+# nested separate repo (deployed build) — not part of this project
+deploy/
