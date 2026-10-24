@@ -18,6 +18,9 @@ export function initEditor(container, initialCode = '') {
 }
 
 export function getCode() {
+    if (!codeEditor) {
+        codeEditor = document.getElementById('codeEditor');
+    }
     if (!codeEditor) return '';
     return codeEditor.value;
 }
