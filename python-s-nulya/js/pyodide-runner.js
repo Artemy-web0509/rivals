@@ -6,7 +6,7 @@ async function getLoader() {
         return window.loadPyodide;
     }
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 60; i++) {
         await new Promise((resolve) => setTimeout(resolve, 100));
         if (typeof window !== 'undefined' && typeof window.loadPyodide === 'function') {
             return window.loadPyodide;
@@ -55,6 +55,22 @@ export async function runPython(code) {
     });
 
     try {
+        await pyodide.runPythonAsync(`
+import builtins
+from js import prompt
+
+def _input_browser(prompt_text=""):
+    try:
+        text = "" if prompt_text is None else str(prompt_text)
+        result = prompt(text)
+        if result is None:
+            return ""
+        return result
+    except Exception:
+        return ""
+
+builtins.input = _input_browser
+`);
         await pyodide.runPythonAsync(code);
     } catch (error) {
         output += error.toString() + '\n';
