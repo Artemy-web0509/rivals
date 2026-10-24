@@ -3,7 +3,7 @@ let codeEditor = null;
 export function initEditor(container, initialCode = '') {
     codeEditor = document.getElementById('codeEditor');
     if (!codeEditor) return;
-    if (initialCode) {
+    if (initialCode && codeEditor.value.trim() === '') {
         codeEditor.value = initialCode;
     }
     codeEditor.addEventListener('keydown', (e) => {
