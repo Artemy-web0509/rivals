@@ -39,7 +39,12 @@ const registerError = document.getElementById('registerError');
 
 let currentLessonId = 0;
 let completed = new Set();
-let currentSession = auth.getSession();
+let currentSession = null;
+try {
+    currentSession = auth.getSession();
+} catch (e) {
+    currentSession = null;
+}
 let progressKey = auth.progressKey(currentSession?.username);
 
 function updateUserUI() {
@@ -90,12 +95,13 @@ function switchAuthTab(tab) {
 function updateProgress() {
     const total = lessons.length;
     const done = completed.size;
-    progressText.textContent = `Прогресс: ${done} / ${total}`;
+    if (progressText) progressText.textContent = `Прогресс: ${done} / ${total}`;
     const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-    progressBarFill.style.width = percent + '%';
+    if (progressBarFill) progressBarFill.style.width = percent + '%';
 }
 
 function renderNav() {
+    if (!lessonsNav) return;
     lessonsNav.innerHTML = '';
     lessons.forEach((lesson) => {
         const button = document.createElement('button');
@@ -115,6 +121,7 @@ function renderNav() {
 }
 
 function renderLesson(lesson) {
+    if (!lessonContent) return;
     let html = '';
     if (lesson.videoUrl && lesson.videoUrl.trim() !== '') {
         html += `
@@ -149,8 +156,8 @@ function openLesson(id) {
     renderNav();
     renderLesson(lesson);
     setCode(lesson.starterCode || '');
-    consoleOutput.textContent = '';
-    consoleStatus.textContent = 'Готов к запуску';
+    if (consoleOutput) consoleOutput.textContent = '';
+    if (consoleStatus) consoleStatus.textContent = 'Готов к запуску';
 }
 
 if (checkTaskBtn) {
@@ -180,34 +187,38 @@ if (checkTaskBtn) {
     });
 }
 
-runBtn.addEventListener('click', async () => {
-    const code = getCode();
-    if (!code.trim()) {
-        consoleOutput.textContent = 'Напиши код перед запуском.';
-        consoleStatus.textContent = 'Пустой код';
-        return;
-    }
-    runBtn.disabled = true;
-    runBtn.textContent = '⏳ Выполняется...';
-    consoleStatus.textContent = 'Выполняется...';
-    consoleOutput.textContent = '';
-    try {
-        const result = await runPython(code);
-        consoleOutput.textContent = result.length === 0 ? '(нет вывода)' : result;
-        consoleStatus.textContent = 'Выполнено';
-    } catch (error) {
-        consoleOutput.textContent = String(error);
-        consoleStatus.textContent = 'Ошибка';
-    } finally {
-        runBtn.disabled = false;
-        runBtn.textContent = '▶ Запустить код';
-    }
-});
+if (runBtn) {
+    runBtn.addEventListener('click', async () => {
+        const code = getCode();
+        if (!code.trim()) {
+            if (consoleOutput) consoleOutput.textContent = 'Напиши код перед запуском.';
+            if (consoleStatus) consoleStatus.textContent = 'Пустой код';
+            return;
+        }
+        runBtn.disabled = true;
+        runBtn.textContent = '⏳ Выполняется...';
+        if (consoleStatus) consoleStatus.textContent = 'Выполняется...';
+        if (consoleOutput) consoleOutput.textContent = '';
+        try {
+            const result = await runPython(code);
+            if (consoleOutput) consoleOutput.textContent = result.length === 0 ? '(нет вывода)' : result;
+            if (consoleStatus) consoleStatus.textContent = 'Выполнено';
+        } catch (error) {
+            if (consoleOutput) consoleOutput.textContent = String(error);
+            if (consoleStatus) consoleStatus.textContent = 'Ошибка';
+        } finally {
+            runBtn.disabled = false;
+            runBtn.textContent = '▶ Запустить код';
+        }
+    });
+}
 
-clearOutputBtn.addEventListener('click', () => {
-    consoleOutput.textContent = '';
-    consoleStatus.textContent = 'Очищено';
-});
+if (clearOutputBtn) {
+    clearOutputBtn.addEventListener('click', () => {
+        if (consoleOutput) consoleOutput.textContent = '';
+        if (consoleStatus) consoleStatus.textContent = 'Очищено';
+    });
+}
 
 if (resetProgressBtn) {
     resetProgressBtn.addEventListener('click', () => {
@@ -237,26 +248,30 @@ if (authCloseBtn) authCloseBtn.addEventListener('click', () => authOverlay?.clas
 authOverlay?.addEventListener('click', (e) => {
     if (e.target === authOverlay) authOverlay.classList.add('hidden');
 });
-authTabs.forEach((btn) => btn.addEventListener('click', () => switchAuthTab(btn.dataset.tab));
+authTabs.forEach((btn) => btn.addEventListener('click', () => switchAuthTab(btn.dataset.tab)));
 
 loginForm?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const res = auth.login(loginUsername?.value, loginPassword?.value);
-    if (!res.ok) {
-        if (loginError) loginError.textContent = res.message;
-        return;
+    try {
+        const res = auth.login(loginUsername?.value, loginPassword?.value);
+        if (!res.ok) {
+            if (loginError) loginError.textContent = res.message;
+            return;
+        }
+        currentSession = res.session;
+        progressKey = auth.progressKey(currentSession.username);
+        completed = new Set();
+        loadProgress();
+        updateProgress();
+        renderNav();
+        const lesson = lessons.find((item) => item.id === currentLessonId);
+        if (lesson) renderLesson(lesson);
+        updateUserUI();
+        authOverlay?.classList.add('hidden');
+        if (loginForm) loginForm.reset();
+    } catch (err) {
+        if (loginError) loginError.textContent = 'Ошибка входа';
     }
-    currentSession = res.session;
-    progressKey = auth.progressKey(currentSession.username);
-    completed = new Set();
-    loadProgress();
-    updateProgress();
-    renderNav();
-    const lesson = lessons.find((item) => item.id === currentLessonId);
-    if (lesson) renderLesson(lesson);
-    updateUserUI();
-    authOverlay?.classList.add('hidden');
-    if (loginForm) loginForm.reset();
 });
 
 registerForm?.addEventListener('submit', (e) => {
@@ -265,26 +280,32 @@ registerForm?.addEventListener('submit', (e) => {
         if (registerError) registerError.textContent = 'Пароли не совпадают';
         return;
     }
-    const res = auth.register(registerUsername?.value, registerPassword?.value);
-    if (!res.ok) {
-        if (registerError) registerError.textContent = res.message;
-        return;
+    try {
+        const res = auth.register(registerUsername?.value, registerPassword?.value);
+        if (!res.ok) {
+            if (registerError) registerError.textContent = res.message;
+            return;
+        }
+        currentSession = res.session;
+        progressKey = auth.progressKey(currentSession.username);
+        completed = new Set();
+        saveProgress();
+        updateProgress();
+        renderNav();
+        const lesson = lessons.find((item) => item.id === currentLessonId);
+        if (lesson) renderLesson(lesson);
+        updateUserUI();
+        authOverlay?.classList.add('hidden');
+        if (registerForm) registerForm.reset();
+    } catch (err) {
+        if (registerError) registerError.textContent = 'Ошибка регистрации';
     }
-    currentSession = res.session;
-    progressKey = auth.progressKey(currentSession.username);
-    completed = new Set();
-    saveProgress();
-    updateProgress();
-    renderNav();
-    const lesson = lessons.find((item) => item.id === currentLessonId);
-    if (lesson) renderLesson(lesson);
-    updateUserUI();
-    authOverlay?.classList.add('hidden');
-    if (registerForm) registerForm.reset();
 });
 
 logoutBtn?.addEventListener('click', () => {
-    auth.logout();
+    try {
+        auth.logout();
+    } catch (e) {}
     currentSession = null;
     progressKey = auth.progressKey(null);
     completed = new Set();
@@ -296,11 +317,18 @@ logoutBtn?.addEventListener('click', () => {
     updateUserUI();
 });
 
-updateUserUI();
-loadProgress();
-updateProgress();
-if (editorContainer) {
-    initEditor(editorContainer, lessons[0]?.starterCode || '');
+try {
+    updateUserUI();
+    loadProgress();
+    updateProgress();
+    if (editorContainer) {
+        initEditor(editorContainer, lessons[0]?.starterCode || '');
+    }
+    openLesson(0);
+    renderNav();
+} catch (e) {
+    console.error(e);
+    if (lessonsNav) {
+        lessonsNav.innerHTML = '<div style="padding:1rem;color:#f87171;">Ошибка загрузки уроков</div>';
+    }
 }
-openLesson(0);
-renderNav();
