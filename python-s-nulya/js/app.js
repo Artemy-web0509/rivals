@@ -196,9 +196,10 @@ if (runBtn) {
             return;
         }
         runBtn.disabled = true;
-        runBtn.textContent = '⏳ Выполняется...';
-        if (consoleStatus) consoleStatus.textContent = 'Выполняется...';
-        if (consoleOutput) consoleOutput.textContent = '';
+        const originalText = runBtn.textContent;
+        runBtn.textContent = '⏳ Загрузка Python...';
+        if (consoleStatus) consoleStatus.textContent = 'Подготовка...';
+        if (consoleOutput) consoleOutput.textContent = 'Загрузка Python. Это может занять 10-30 секунд при первом запуске...\n';
         try {
             const result = await runPython(code);
             if (consoleOutput) consoleOutput.textContent = result.length === 0 ? '(нет вывода)' : result;
@@ -208,7 +209,7 @@ if (runBtn) {
             if (consoleStatus) consoleStatus.textContent = 'Ошибка';
         } finally {
             runBtn.disabled = false;
-            runBtn.textContent = '▶ Запустить код';
+            runBtn.textContent = originalText;
         }
     });
 }
