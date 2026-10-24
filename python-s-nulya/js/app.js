@@ -68,7 +68,23 @@ function renderNav() {
 }
 
 function renderLesson(lesson) {
-    lessonContent.innerHTML = lesson.content;
+    let html = '';
+    if (lesson.videoUrl && lesson.videoUrl.trim() !== '') {
+        html += `
+            <div class="lesson-video-block">
+                <div class="lesson-video-header">
+                    <div class="lesson-video-title">Видео к уроку</div>
+                    <div class="lesson-video-subtitle">Краткое объяснение темы</div>
+                </div>
+                <div class="video-wrapper">
+                    <iframe src="${lesson.videoUrl}" title="Видео к уроку ${lesson.number}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="lesson-divider"></div>
+        `;
+    }
+    html += lesson.content;
+    lessonContent.innerHTML = html;
     markDoneBtn.textContent = completed.has(lesson.id) ? 'Урок пройден ✓' : 'Отметить урок пройденным';
     markDoneBtn.disabled = completed.has(lesson.id);
     markDoneBtn.classList.toggle('primary', !completed.has(lesson.id));
