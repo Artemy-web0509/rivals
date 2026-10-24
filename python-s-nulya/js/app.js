@@ -190,7 +190,7 @@ if (checkTaskBtn) {
 if (runBtn) {
     runBtn.addEventListener('click', async () => {
         const code = getCode();
-        if (!code.trim()) {
+        if (!code || !code.trim()) {
             if (consoleOutput) consoleOutput.textContent = 'Напиши код перед запуском.';
             if (consoleStatus) consoleStatus.textContent = 'Пустой код';
             return;
