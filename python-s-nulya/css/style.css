@@ -297,10 +297,30 @@ body {
 
 .lesson-actions {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     padding: 1rem 3.2rem;
     border-top: 1px solid var(--border);
     background: linear-gradient(180deg, transparent 0%, rgba(124, 58, 237, 0.12) 100%);
+}
+
+.lesson-check-info {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    min-height: 1.6rem;
+}
+
+.lesson-check-info.success {
+    color: var(--success);
+}
+
+.lesson-check-info.error {
+    color: var(--danger);
+}
+
+.lesson-check-info.warn {
+    color: var(--warning);
 }
 
 .editor-panel {

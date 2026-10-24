@@ -1,12 +1,13 @@
 import { lessons } from './lessons.js';
 import { initEditor, getCode, setCode } from './editor.js';
 import { runPython } from './pyodide-runner.js';
+import { checkTask } from './task-checker.js';
 
 const STORAGE_KEY = 'python-s-nulya-progress';
 
 const lessonsNav = document.getElementById('lessonsNav');
 const lessonContent = document.getElementById('lessonContent');
-const markDoneBtn = document.getElementById('markDoneBtn');
+const checkTaskBtn = document.getElementById('checkTaskBtn');
 const runBtn = document.getElementById('runBtn');
 const clearOutputBtn = document.getElementById('clearOutputBtn');
 const consoleOutput = document.getElementById('consoleOutput');
@@ -15,6 +16,7 @@ const progressText = document.getElementById('progressText');
 const progressBarFill = document.getElementById('progressBarFill');
 const resetProgressBtn = document.getElementById('resetProgressBtn');
 const editorContainer = document.getElementById('editorContainer');
+const checkResultText = document.getElementById('checkResultText');
 
 let currentLessonId = 0;
 let completed = new Set();
@@ -85,9 +87,14 @@ function renderLesson(lesson) {
     }
     html += lesson.content;
     lessonContent.innerHTML = html;
-    markDoneBtn.textContent = completed.has(lesson.id) ? 'Урок пройден ✓' : 'Отметить урок пройденным';
-    markDoneBtn.disabled = completed.has(lesson.id);
-    markDoneBtn.classList.toggle('primary', !completed.has(lesson.id));
+    if (checkTaskBtn) {
+        checkTaskBtn.textContent = completed.has(lesson.id) ? 'Урок пройден ✓' : 'Проверить задание';
+        checkTaskBtn.disabled = completed.has(lesson.id);
+    }
+    if (checkResultText) {
+        checkResultText.textContent = completed.has(lesson.id) ? 'Задание выполнено. Урок пройден.' : '';
+        checkResultText.className = completed.has(lesson.id) ? 'lesson-check-info success' : 'lesson-check-info';
+    }
 }
 
 function openLesson(id) {
@@ -101,15 +108,32 @@ function openLesson(id) {
     consoleStatus.textContent = 'Готов к запуску';
 }
 
-markDoneBtn.addEventListener('click', () => {
-    const lesson = lessons.find((item) => item.id === currentLessonId);
-    if (!lesson) return;
-    completed.add(lesson.id);
-    saveProgress();
-    updateProgress();
-    renderNav();
-    renderLesson(lesson);
-});
+if (checkTaskBtn) {
+    checkTaskBtn.addEventListener('click', () => {
+        const lesson = lessons.find((item) => item.id === currentLessonId);
+        if (!lesson) return;
+        const code = getCode();
+        if (!code.trim()) {
+            if (checkResultText) {
+                checkResultText.textContent = 'Напиши код в редакторе перед проверкой.';
+                checkResultText.className = 'lesson-check-info warn';
+            }
+            return;
+        }
+        const result = checkTask(lesson.id, code);
+        if (checkResultText) {
+            checkResultText.textContent = result.message;
+            checkResultText.className = result.ok ? 'lesson-check-info success' : 'lesson-check-info error';
+        }
+        if (result.ok) {
+            completed.add(lesson.id);
+            saveProgress();
+            updateProgress();
+            renderNav();
+            renderLesson(lesson);
+        }
+    });
+}
 
 runBtn.addEventListener('click', async () => {
     const code = getCode();
@@ -140,18 +164,26 @@ clearOutputBtn.addEventListener('click', () => {
     consoleStatus.textContent = 'Очищено';
 });
 
-resetProgressBtn.addEventListener('click', () => {
-    if (!confirm('Сбросить весь прогресс по урокам?')) return;
-    completed = new Set();
-    saveProgress();
-    updateProgress();
-    renderNav();
-    const lesson = lessons.find((item) => item.id === currentLessonId);
-    if (lesson) renderLesson(lesson);
-});
+if (resetProgressBtn) {
+    resetProgressBtn.addEventListener('click', () => {
+        if (!confirm('Сбросить весь прогресс по урокам?')) return;
+        completed = new Set();
+        saveProgress();
+        updateProgress();
+        renderNav();
+        const lesson = lessons.find((item) => item.id === currentLessonId);
+        if (lesson) renderLesson(lesson);
+        if (checkResultText) {
+            checkResultText.textContent = '';
+            checkResultText.className = 'lesson-check-info';
+        }
+    });
+}
 
 loadProgress();
 updateProgress();
-initEditor(editorContainer, lessons[0]?.starterCode || '');
+if (editorContainer) {
+    initEditor(editorContainer, lessons[0]?.starterCode || '');
+}
 openLesson(0);
 renderNav();
