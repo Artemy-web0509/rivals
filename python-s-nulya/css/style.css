@@ -496,6 +496,195 @@ body {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-block {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.8rem 0.4rem 1rem;
+    border-radius: 999px;
+    background: rgba(15, 16, 38, 0.6);
+    border: 1px solid var(--border);
+}
+
+.user-name {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top, rgba(124, 58, 237, 0.18), transparent 60%), rgba(8, 9, 24, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.auth-modal {
+    width: min(420px, 92vw);
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.2rem;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.18) 0%, rgba(22, 24, 42, 0.98) 100%);
+    box-shadow: 0 80px 160px -120px rgba(124, 58, 237, 0.9);
+    overflow: hidden;
+}
+
+.auth-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 1.8rem 0.8rem;
+}
+
+.auth-modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.auth-close {
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.auth-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    padding: 0 1.8rem;
+}
+
+.auth-tab {
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text-tertiary);
+    padding: 0.5rem 0.8rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.auth-tab.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.2rem 1.8rem 0;
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.auth-field input {
+    border-radius: 0.8rem;
+    border: 1px solid var(--border);
+    background: rgba(15, 16, 38, 0.8);
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.7rem 0.9rem;
+}
+
+.auth-error {
+    min-height: 1.4rem;
+    color: var(--danger);
+    font-size: 0.95rem;
+}
+
+.auth-submit {
+    align-self: flex-start;
+}
+
+.auth-hint {
+    padding: 1rem 1.8rem 1.6rem;
+    color: var(--text-tertiary);
+    font-size: 0.95rem;
+}
+
+.lesson-more-tasks {
+    border-radius: 1rem;
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, transparent 100%);
+    padding: 1.8rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.lesson-more-tasks-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.lesson-more-tasks-title {
+    font-weight: 600;
+    font-size: 1.12rem;
+}
+
+.lesson-more-tasks-subtitle {
+    color: var(--text-tertiary);
+}
+
+.lesson-mini-task {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.4rem 1.6rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(15, 16, 38, 0.7);
+}
+
+.lesson-mini-task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lesson-mini-task-title {
+    font-weight: 600;
+}
+
+.lesson-mini-task-badge {
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+.lesson-mini-task-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    color: var(--text-secondary);
+}
+
 .lesson-video-block {
     display: flex;
     flex-direction: column;

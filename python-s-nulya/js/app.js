@@ -2,8 +2,7 @@ import { lessons } from './lessons.js';
 import { initEditor, getCode, setCode } from './editor.js';
 import { runPython } from './pyodide-runner.js';
 import { checkTask } from './task-checker.js';
-
-const STORAGE_KEY = 'python-s-nulya-progress';
+import { auth } from './auth.js';
 
 const lessonsNav = document.getElementById('lessonsNav');
 const lessonContent = document.getElementById('lessonContent');
@@ -18,12 +17,49 @@ const resetProgressBtn = document.getElementById('resetProgressBtn');
 const editorContainer = document.getElementById('editorContainer');
 const checkResultText = document.getElementById('checkResultText');
 
+const userBlock = document.getElementById('userBlock');
+const userNameEl = document.getElementById('userName');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const logoutBtn = document.getElementById('logoutBtn');
+
+const authOverlay = document.getElementById('authOverlay');
+const authCloseBtn = document.getElementById('authCloseBtn');
+const authModalTitle = document.getElementById('authModalTitle');
+const authTabs = document.querySelectorAll('.auth-tab');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const loginUsername = document.getElementById('loginUsername');
+const loginPassword = document.getElementById('loginPassword');
+const loginError = document.getElementById('loginError');
+const registerUsername = document.getElementById('registerUsername');
+const registerPassword = document.getElementById('registerPassword');
+const registerPassword2 = document.getElementById('registerPassword2');
+const registerError = document.getElementById('registerError');
+
 let currentLessonId = 0;
 let completed = new Set();
+let currentSession = auth.getSession();
+let progressKey = auth.progressKey(currentSession?.username);
+
+function updateUserUI() {
+    if (!userNameEl) return;
+    if (currentSession?.username) {
+        userNameEl.textContent = currentSession.username;
+        loginBtn?.classList.add('hidden');
+        registerBtn?.classList.add('hidden');
+        logoutBtn?.classList.remove('hidden');
+    } else {
+        userNameEl.textContent = 'Гость';
+        loginBtn?.classList.remove('hidden');
+        registerBtn?.classList.remove('hidden');
+        logoutBtn?.classList.add('hidden');
+    }
+}
 
 function loadProgress() {
     try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(progressKey);
         if (!raw) return;
         const parsed = JSON.parse(raw);
         if (Array.isArray(parsed)) {
@@ -36,10 +72,19 @@ function loadProgress() {
 
 function saveProgress() {
     try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(completed)));
+        localStorage.setItem(progressKey, JSON.stringify(Array.from(completed)));
     } catch (error) {
         console.warn('Не удалось сохранить прогресс', error);
     }
+}
+
+function switchAuthTab(tab) {
+    authTabs.forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === tab));
+    loginForm?.classList.toggle('hidden', tab !== 'login');
+    registerForm?.classList.toggle('hidden', tab !== 'register');
+    if (authModalTitle) authModalTitle.textContent = tab === 'login' ? 'Вход' : 'Регистрация';
+    if (loginError) loginError.textContent = '';
+    if (registerError) registerError.textContent = '';
 }
 
 function updateProgress() {
@@ -180,6 +225,78 @@ if (resetProgressBtn) {
     });
 }
 
+if (loginBtn) loginBtn.addEventListener('click', () => {
+    authOverlay?.classList.remove('hidden');
+    switchAuthTab('login');
+});
+if (registerBtn) registerBtn.addEventListener('click', () => {
+    authOverlay?.classList.remove('hidden');
+    switchAuthTab('register');
+});
+if (authCloseBtn) authCloseBtn.addEventListener('click', () => authOverlay?.classList.add('hidden'));
+authOverlay?.addEventListener('click', (e) => {
+    if (e.target === authOverlay) authOverlay.classList.add('hidden');
+});
+authTabs.forEach((btn) => btn.addEventListener('click', () => switchAuthTab(btn.dataset.tab));
+
+loginForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const res = auth.login(loginUsername?.value, loginPassword?.value);
+    if (!res.ok) {
+        if (loginError) loginError.textContent = res.message;
+        return;
+    }
+    currentSession = res.session;
+    progressKey = auth.progressKey(currentSession.username);
+    completed = new Set();
+    loadProgress();
+    updateProgress();
+    renderNav();
+    const lesson = lessons.find((item) => item.id === currentLessonId);
+    if (lesson) renderLesson(lesson);
+    updateUserUI();
+    authOverlay?.classList.add('hidden');
+    if (loginForm) loginForm.reset();
+});
+
+registerForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (registerPassword?.value !== registerPassword2?.value) {
+        if (registerError) registerError.textContent = 'Пароли не совпадают';
+        return;
+    }
+    const res = auth.register(registerUsername?.value, registerPassword?.value);
+    if (!res.ok) {
+        if (registerError) registerError.textContent = res.message;
+        return;
+    }
+    currentSession = res.session;
+    progressKey = auth.progressKey(currentSession.username);
+    completed = new Set();
+    saveProgress();
+    updateProgress();
+    renderNav();
+    const lesson = lessons.find((item) => item.id === currentLessonId);
+    if (lesson) renderLesson(lesson);
+    updateUserUI();
+    authOverlay?.classList.add('hidden');
+    if (registerForm) registerForm.reset();
+});
+
+logoutBtn?.addEventListener('click', () => {
+    auth.logout();
+    currentSession = null;
+    progressKey = auth.progressKey(null);
+    completed = new Set();
+    loadProgress();
+    updateProgress();
+    renderNav();
+    const lesson = lessons.find((item) => item.id === currentLessonId);
+    if (lesson) renderLesson(lesson);
+    updateUserUI();
+});
+
+updateUserUI();
 loadProgress();
 updateProgress();
 if (editorContainer) {

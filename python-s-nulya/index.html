@@ -23,9 +23,57 @@
             </div>
         </div>
         <div class="header-right">
+            <div class="user-block" id="userBlock">
+                <span class="user-name" id="userName">Гость</span>
+                <button class="btn ghost" id="loginBtn">Войти</button>
+                <button class="btn ghost" id="registerBtn">Регистрация</button>
+                <button class="btn ghost hidden" id="logoutBtn">Выйти</button>
+            </div>
             <button class="btn ghost" id="resetProgressBtn" title="Сбросить прогресс">Сбросить прогресс</button>
         </div>
     </header>
+
+    <div class="auth-overlay hidden" id="authOverlay">
+        <div class="auth-modal">
+            <div class="auth-modal-header">
+                <div class="auth-modal-title" id="authModalTitle">Вход</div>
+                <button class="auth-close" id="authCloseBtn">✕</button>
+            </div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <label class="auth-field">
+                    <span>Логин</span>
+                    <input type="text" id="loginUsername" autocomplete="username" required>
+                </label>
+                <label class="auth-field">
+                    <span>Пароль</span>
+                    <input type="password" id="loginPassword" autocomplete="current-password" required>
+                </label>
+                <div class="auth-error" id="loginError"></div>
+                <button class="btn primary auth-submit" type="submit">Войти</button>
+            </form>
+            <form class="auth-form hidden" id="registerForm">
+                <label class="auth-field">
+                    <span>Логин</span>
+                    <input type="text" id="registerUsername" autocomplete="username" minlength="3" required>
+                </label>
+                <label class="auth-field">
+                    <span>Пароль</span>
+                    <input type="password" id="registerPassword" autocomplete="new-password" minlength="4" required>
+                </label>
+                <label class="auth-field">
+                    <span>Повторите пароль</span>
+                    <input type="password" id="registerPassword2" autocomplete="new-password" minlength="4" required>
+                </label>
+                <div class="auth-error" id="registerError"></div>
+                <button class="btn primary auth-submit" type="submit">Создать аккаунт</button>
+            </form>
+            <div class="auth-hint">Прогресс сохраняется под аккаунтом. Можно учиться и без входа.</div>
+        </div>
+    </div>
 
     <main class="app-main">
         <aside class="sidebar">
