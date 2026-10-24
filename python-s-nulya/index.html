@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python с нуля</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.1.2/theme/one-dark.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo">Python с нуля</div>
+            <div class="progress-info">
+                <span id="progressText">Прогресс: 0 / 0</span>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="btn ghost" id="resetProgressBtn" title="Сбросить прогресс">Сбросить прогресс</button>
+        </div>
+    </header>
+
+    <main class="app-main">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Уроки</h2>
+            </div>
+            <nav class="lessons-nav" id="lessonsNav"></nav>
+        </aside>
+
+        <section class="lesson-panel">
+            <article class="lesson-content" id="lessonContent"></article>
+            <div class="lesson-actions">
+                <button class="btn primary" id="markDoneBtn">Отметить урок пройденным</button>
+            </div>
+        </section>
+
+        <section class="editor-panel">
+            <div class="editor-header">
+                <div class="editor-title">Редактор кода</div>
+                <div class="editor-actions">
+                    <button class="btn" id="runBtn">▶ Запустить код</button>
+                    <button class="btn ghost" id="clearOutputBtn">Очистить вывод</button>
+                </div>
+            </div>
+            <div class="editor-container" id="editorContainer"></div>
+            <div class="console">
+                <div class="console-header">
+                    <div class="console-title">Консоль вывода</div>
+                    <div class="console-status" id="consoleStatus">Ожидание запуска</div>
+                </div>
+                <pre class="console-output" id="consoleOutput"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@codemirror/lang-python@6.1.6/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.1.2/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
