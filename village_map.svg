@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="-175 -80 350 260">
+  <defs>
+    <rect id="house" width="9" height="7" rx="0.6" fill="#7a5a3a" stroke="#4b3823" stroke-width="0.35"/>
+    <style>
+      .lake   { fill:#6db3e0; stroke:#3c7aa8 }
+      .field  { fill:#9ccb63 }
+      .path   { fill:#c9a86a }
+      .label  { font-family:Arial; font-size:3; fill:#2b2b2b }
+      .title  { font-family:Arial; font-size:5; font-weight:bold; fill:#2b2b2b }
+      .road   { stroke:#b98d4f }
+    </style>
+  </defs>
+
+  <!-- фон плато -->
+  <rect x="-175" y="-80" width="350" height="260" fill="#e8ded0"/>
+  <rect x="-170" y="-75" width="340" height="250" fill="#a8d89a" stroke="#7cb068" stroke-width="0.5"/>
+
+  <!-- граница плато/обрыв (условно) -->
+  <rect x="-150" y="-64" width="300" height="232" fill="none" stroke="#8a7a5a" stroke-width="0.6" stroke-dasharray="2,1.4"/>
+
+  <!-- горное кольцо (намек по краям плато) -->
+  <g opacity="0.5">
+    <path d="M-150 -64 Q-100 -78 -50 -64" stroke="#7a6a52" stroke-width="2" fill="none"/>
+    <path d="M150 -64 Q100 -78 50 -64" stroke="#7a6a52" stroke-width="2" fill="none"/>
+    <path d="M-150 168 Q-100 182 -50 168" stroke="#7a6a52" stroke-width="2" fill="none"/>
+    <path d="M150 168 Q100 182 50 168" stroke="#7a6a52" stroke-width="2" fill="none"/>
+    <path d="M-150 -40 Q-164 10 -150 60" stroke="#7a6a52" stroke-width="2" fill="none"/>
+    <path d="M150 -40 Q164 10 150 60" stroke="#7a6a52" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- главная грунтовая дорога -->
+  <line x1="-135" y1="0" x2="148" y2="0" class="road" stroke-width="3.4" stroke="#b98d4f"/>
+  <line x1="-135" y1="-1" x2="148" y2="-1" stroke="#a87942" stroke-width="1.2"/>
+  <line x1="-135" y1="1" x2="148" y2="1" stroke="#cda06a" stroke-width="1.2"/>
+
+  <!-- указатель на входе -->
+  <line x1="-137" y1="2" x2="-137" y2="-2" stroke="#5b4327" stroke-width="1"/>
+  <rect x="-138.5" y="1.5" width="4" height="2.6" fill="#8a5f36"/>
+  <text x="-139" y="3.6" class="label" font-size="1.6">К деревне →</text>
+
+  <!-- конторка писаря -->
+  <rect x="-131" y="2.4" width="3" height="2" fill="#a0713f" stroke="#4b3823" stroke-width="0.3"/>
+  <circle cx="-130" cy="5" r="0.7" fill="#f2c14e"/>
+  <text x="-134" y="5.5" class="label" font-size="2.2">Писарь</text>
+
+  <!-- избы вдоль дороги -->
+  <use href="#house" x="-105" y="-16"/><text x="-110" y="-11" class="label" font-size="2.2">Жанна</text>
+  <use href="#house" x="-59" y="12"/><text x="-64" y="18" class="label" font-size="2.2">Дарья</text>
+  <use href="#house" x="-12" y="-16"/><text x="-15" y="-11" class="label" font-size="2.2">Чувак</text>
+  <use href="#house" x="34" y="12"/><text x="31" y="18" class="label" font-size="2.2">сосед</text>
+  <use href="#house" x="88" y="-16"/><text x="83" y="-11" class="label" font-size="2.2">сосед</text>
+
+  <!-- забор Жанны -->
+  <g stroke="#2f5d34" stroke-width="0.4">
+    <line x1="-114" y1="-12" x2="-105" y2="-12"/>
+    <line x1="-112" y1="-10" x2="-112" y2="-2"/>
+  </g>
+
+  <!-- дом Шкифа + подвал -->
+  <rect x="96" y="-24" width="14" height="15" fill="#8c6a3f" stroke="#4b3823" stroke-width="0.5"/>
+  <rect x="97" y="-23" width="12" height="13" fill="#a97e4b" stroke="none"/>
+  <text x="99" y="-12" class="label" font-size="2.4" fill="#fff">Шкиф</text>
+  <text x="99" y="-9" class="label" font-size="1.7" fill="#efd9bb">+подвал/секр. выход</text>
+
+  <!-- дом бабушки Марии (двухэтажный) -->
+  <rect x="124" y="-12" width="22" height="24" fill="#8c6a3f" stroke="#4b3823" stroke-width="0.6"/>
+  <rect x="125" y="-11" width="20" height="22" fill="#c99a5b" stroke="none"/>
+  <rect x="125" y="-11" width="20" height="10" fill="#7a5a3a" stroke="none"/>
+  <text x="128" y="1" class="label" font-size="2.4" fill="#fff">Бабушка</text>
+  <text x="130" y="4" class="label" font-size="2.4" fill="#fff">Мария</text>
+  <text x="127" y="7" class="label" font-size="1.7" fill="#3c3226">2 этажа, кладовая</text>
+
+  <!-- волки и куры -->
+  <text x="146" y="-1" class="label" font-size="2">Нави</text>
+  <text x="146" y="2" class="label" font-size="2">Ксе</text>
+  <text x="147" y="5" class="label" font-size="1.6" fill="#777">🐔🐔🐔</text>
+
+  <!-- дом деда Терракота -->
+  <rect x="-40" y="-58" width="17" height="15" fill="#3f3a33" stroke="#1f1c18" stroke-width="0.6"/>
+  <line x1="-33" y1="-58" x2="-33" y2="-43" stroke="#8a6f45" stroke-width="0.5"/>
+  <text x="-41" y="-64" class="label" font-size="2.6">Дед Терракот</text>
+  <text x="-44" y="-61" class="label" font-size="1.7" fill="#555">заколочен, баррикады</text>
+
+  <!-- мельница -->
+  <rect x="-109" y="-45" width="5" height="5" fill="#c9a86a" stroke="#6a5432" stroke-width="0.4"/>
+  <line x1="-108" y1="-46" x2="-108" y2="-48" stroke="#6a5432" stroke-width="0.6"/>
+  <line x1="-111" y1="-45" x2="-106" y2="-45" stroke="#6a5432" stroke-width="0.5"/>
+  <line x1="-111" y1="-44" x2="-106" y2="-44" stroke="#6a5432" stroke-width="0.5"/>
+  <text x="-112" y="-50" class="label" font-size="2.2">мельница</text>
+
+  <!-- церковь с колокольней -->
+  <rect x="24" y="26" width="12" height="10" fill="#8f8f92" stroke="#4a4a4e" stroke-width="0.5"/>
+  <rect x="36" y="26" width="3" height="10" fill="#6d6d72" stroke="#4a4a4e" stroke-width="0.4"/>
+  <line x1="37.5" y1="26" x2="37.5" y2="19" stroke="#4a4a4e" stroke-width="0.8"/>
+  <circle cx="37.5" cy="19" r="0.8" fill="#e8b64c"/>
+  <text x="25" y="39" class="label" font-size="2.4">Церковь</text>
+  <text x="26" y="42" class="label" font-size="1.7" fill="#555">+ колокольня</text>
+
+  <!-- участок главного героя -->
+  <rect x="-70" y="18" width="41" height="27" fill="#b7cf86" stroke="#6a8a3a" stroke-width="0.5" stroke-dasharray="2,1"/>
+  <text x="-66" y="24" class="label" font-size="2.6">УЧАСТОК</text>
+  <text x="-66" y="28" class="label" font-size="2.6">ГЕРОЯ</text>
+  <text x="-66" y="33" class="label" font-size="2" fill="#4a4a4a">пустырь, старая</text>
+  <text x="-66" y="36" class="label" font-size="2" fill="#4a4a4a">изгородь</text>
+  <!-- саженцы -->
+  <g fill="#3a6b2a"><circle cx="-73" cy="45" r="0.7"/><circle cx="-72" cy="47" r="0.7"/><circle cx="-68" cy="45" r="0.7"/><circle cx="-28" cy="47" r="0.7"/></g>
+
+  <!-- дорожка к участку -->
+  <line x1="-29" y1="-1" x2="-24" y2="4" stroke="#b98d4f" stroke-width="1.4"/>
+
+  <!-- подсолнухи вдоль дороги -->
+  <g fill="#d8a532">
+    <circle cx="-8" cy="4" r="0.5"/><circle cx="3" cy="4" r="0.5"/><circle cx="12" cy="4" r="0.5"/>
+    <circle cx="27" cy="4" r="0.5"/><circle cx="42" cy="4" r="0.5"/><circle cx="57" cy="4" r="0.5"/>
+    <circle cx="72" cy="4" r="0.5"/><circle cx="87" cy="4" r="0.5"/><circle cx="102" cy="4" r="0.5"/>
+    <circle cx="117" cy="4" r="0.5"/>
+  </g>
+
+  <!-- стрелка на город -->
+  <line x1="10" y1="70" x2="10" y2="95" stroke="#7a3a3a" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <defs><marker id="arrow" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 Z" fill="#7a3a3a"/></marker></defs>
+  <text x="-6" y="100" class="label" font-size="3" fill="#7a3a3a">→ ГОРОД АЛЛАГАН (юг, ~400–600 м)</text>
+
+  <!-- северная стрелка -->
+  <g transform="translate(-160,-70)">
+    <path d="M0,0 L3,8 L-3,8 Z" fill="#2b2b2b"/>
+    <text x="4" y="5" font-family="Arial" font-size="2.6" fill="#2b2b2b">N</text>
+  </g>
+
+  <text x="-175" y="-84" class="title" font-size="6">Деревня Олива — карта</text>
+  <text x="-175" y="-78" font-family="Arial" font-size="2.6" fill="#666">составлена по координатам gen_village.py (спавн 544, 65, 1072; дорога ось z=0)</text>
+</svg>
