@@ -39,10 +39,11 @@ const registerError = document.getElementById('registerError');
 
 let currentLessonId = 0;
 let completed = new Set();
+let taskCompleted = new Set();
 try {
     const keys = Object.keys(localStorage);
     keys.forEach(k => {
-        if (k.includes('progress') || k.includes('python') && k.includes('prog')) {
+        if (k.includes('progress') || k.includes('python') && k.includes('prog') || k.includes('task')) {
             try { localStorage.removeItem(k); } catch (e) {}
         }
     });
@@ -52,6 +53,7 @@ try { currentSession = auth.getSession(); } catch (e) { currentSession = null; }
 let progressKey = auth.progressKey(currentSession?.username);
 try { localStorage.setItem(progressKey, JSON.stringify([])); } catch (e) {}
 completed = new Set();
+taskCompleted = new Set();
 let showQuizMode = false;
 
 function updateUserUI() {
@@ -120,7 +122,7 @@ function renderNav() {
 }
 
 function isLessonTaskCompleted(lessonId) {
-    return completed.has(lessonId);
+    return taskCompleted.has(lessonId);
 }
 
 function renderLesson(lesson) {
@@ -254,14 +256,17 @@ if (checkTaskBtn) {
         const result = checkTask(lesson.id, code);
         if (checkResultText) { checkResultText.textContent = result.message; checkResultText.className = result.ok ? 'lesson-check-info success' : 'lesson-check-info error'; }
         if (result.ok) {
-            completed.add(lesson.id);
-            saveProgress();
-            updateProgress();
-            renderNav();
-            if (lesson.quiz) {
-                showQuizMode = true;
+            taskCompleted.add(lesson.id);
+            if (!lesson.quiz) {
+                completed.add(lesson.id);
+                saveProgress();
+                updateProgress();
+                renderNav();
                 renderLesson(lesson);
             } else {
+                updateProgress();
+                renderNav();
+                showQuizMode = true;
                 renderLesson(lesson);
             }
         }
