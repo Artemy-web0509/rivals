@@ -516,33 +516,25 @@ if __name__ == '__main__':
         quiz: { questions: [ { q: "Как перенаправить пользователя на другую страницу?", options: ["return redirect('/')", "return go('/')", "window.location"], correct: 0 }, { q: "Где должны лежать HTML-шаблоны во Flask?", options: ["В корне", "В папке templates", "В папке static"], correct: 1 } ] }
     },
     {
-        id: 19, number: "19", title: "Проект: Сайт-визитка с навигацией", subtitle: "Финальный проект курса",
+        id: 19, number: "19", title: "ПРОМЕЖУТОЧНЫЙ ЭКЗАМЕН. Уроки 0-18", subtitle: "Напиши работающий сайт на Flask с нуля",
         content: `
-            <h1>Урок 19. Финальный проект: Сайт-визитка</h1>
-            <h2>1. Задача</h2>
-            <p>Сделай полноценный многостраничный сайт-визитку, объединяющий всё пройденное.</p>
-            <h2>2. Страницы</h2>
-            <ul><li><strong>Главная</strong> (/) — приветствие, кратко о себе</li><li><strong>Обо мне</strong> (/about) — фото, навыки, хобби</li><li><strong>Мои проекты</strong> (/projects) — список проектов с описанием</li><li><strong>Контакты</strong> (/contacts) — форма обратной связи</li></ul>
-            <h2>3. Структура</h2>
-            <pre><code>visitka/
-├── app.py
-├── static/
-│   ├── css/style.css
-│   └── img/
-└── templates/
-    ├── base.html
-    ├── index.html
-    ├── about.html
-    ├── projects.html
-    └── contacts.html</code></pre>
-            <h2>4. Чек-лист для проверки</h2>
-            <ul><li>[ ] Есть базовый шаблон с навигацией на все страницы</li><li>[ ] Подключён CSS из static/</li><li>[ ] Использованы шаблоны Jinja2</li><li>[ ] На странице проектов используется цикл</li><li>[ ] Есть форма на странице контактов с обработкой POST</li><li>[ ] Стили сделаны аккуратными</li></ul>
-            <div class="lesson-callout success"><div class="lesson-callout-title">Поздравляю!</div><p>Если ты сделал этот проект самостоятельно — ты уже можешь писать небольшие сайты на Flask.</p></div>
-            <div class="lesson-steps"><div class="lesson-steps-title">План</div><ol class="lesson-steps-list"><li>Сделай структуру папок</li><li>Создай base.html с меню</li><li>Сделай все страницы</li><li>Добавь CSS</li><li>Настрой роуты во Flask</li><li>Протести все переходы</li></ol></div>
-            <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Финальное задание</div></div><div class="lesson-task-body"><p>Собери сайт-визитку по чек-листу. Сделай его про себя. Потом можешь доработать как захочешь.</p></div></div>
+            <h1>ПРОМЕЖУТОЧНЫЙ ЭКЗАМЕН</h1>
+            <h2>Задание</h2>
+            <p><strong>Напиши с нуля полный, рабочий многостраничный сайт-визитку на Flask.</strong></p>
+            <p>Используй ТОЛЬКО темы, пройденные до этого урока.</p>
+            <h2>Требования</h2>
+            <ul>
+                <li>Структура: app.py, папка templates/ с минимум 3-мя HTML-шаблонами, папка static/ с style.css</li>
+                <li>Минимум 3 маршрута через @app.route (главная, страница "Обо мне", страница с контактами)</li>
+                <li>Используй render_template для HTML-страниц</li>
+                <li>Используй базовый шаблон (base.html) с наследованием или единый стиль через CSS</li>
+                <li>На одной из страниц реализуй форму (GET/POST), обработай через request.form</li>
+                <li>Подключи CSS из static/</li>
+            </ul>
+            <p><strong>Без подсказок. Напиши весь код сайта целиком в редакторе.</strong></p>
         `,
-        starterCode: `from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    return render_template('index.html')\n\n@app.route('/about')\ndef about():\n    return render_template('about.html')\n\n@app.route('/projects')\ndef projects():\n    мои_проекты = ["Викторина на Python", "Гостевая книга", "Сайт-визитка"]\n    return render_template('projects.html', проекты=мои_проекты)\n\n@app.route('/contacts', methods=['GET', 'POST'])\ndef contacts():\n    if request.method == 'POST':\n        return "<h2>Сообщение отправлено!</h2><a href='/'>На главную</a>"\n    return render_template('contacts.html')\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
-        quiz: { questions: [ { q: "Где должны лежать CSS и картинки во Flask?", options: ["В папке templates", "В папке static", "В корне проекта"], correct: 1 }, { q: "Что такое base.html?", options: ["Главная страница", "Базовый шаблон с общим меню для наследования", "Файл с настройками"], correct: 1 } ] }
+        starterCode: `from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n# Напиши полный рабочий сайт-визитку здесь\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
+        quiz: { type: 'exam', mode: 'code', title: 'Промежуточный экзамен 1', instructions: 'Напиши с нуля работающий многостраничный сайт-визитку на Flask. Обязательные требования: @app.route минимум 3 маршрута, render_template, templates/, static/style.css, форма с request.form, наследование шаблонов или единый стиль.', checks: ['flask', 'route', 'render_template', 'templates', 'static', 'form', 'request'] }
     },
     {
         id: 20, number: "20", title: "ООП: Классы и объекты", subtitle: "Основы объектно-ориентированного программирования",
@@ -877,43 +869,25 @@ logging.error("Произошла ошибка!")`,
         quiz: { questions: [ { q: "Какой уровень логирования самый критичный?", options: ["INFO", "WARNING", "CRITICAL"], correct: 2 }, { q: "Зачем использовать logging?", options: ["Можно выводить в файл и управлять уровнями", "Он быстрее", "Он красивее"], correct: 0 } ] }
     },
     {
-        id: 29, number: "29", title: "🏆 ПРАКТИЧЕСКИЙ ЭКЗАМЕН 1", subtitle: "Создай мини-сайт на Flask с ООП",
+        id: 29, number: "29", title: "ПРАКТИЧЕСКИЙ ЭКЗАМЕН. Уроки 0-28", subtitle: "Напиши работающий сайт с ООП на Flask с нуля",
         content: `
-            <h1>Экзамен 1: Мини-сайт</h1>
-            <h2>Задача</h2>
-            <p>Напиши код приложения на Flask, которое:</p>
+            <h1>ПРАКТИЧЕСКИЙ ЭКЗАМЕН 1</h1>
+            <h2>Задание</h2>
+            <p><strong>Напиши с нуля полноценный рабочий сайт "Библиотека книг" на Flask с использованием ООП.</strong></p>
+            <p>Используй ТОЛЬКО пройденные темы.</p>
+            <h2>Требования</h2>
             <ul>
-                <li>Использует класс для структуры данных</li>
-                <li>Имеет маршрут '/' с приветствием</li>
-                <li>Имеет маршрут '/submit' с обработкой POST</li>
-                <li>Возвращает ответ через jsonify</li>
+                <li>Создай класс <code>Book</code> (и при необходимости другие классы)</li>
+                <li>Минимум 4 маршрута через @app.route</li>
+                <li>Форма добавления книги через POST с обработкой request.form</li>
+                <li>Хранение данных (список/словарь в памяти)</li>
+                <li>HTML-шаблоны в templates/, CSS в static/</li>
+                <li>Используй render_template</li>
             </ul>
-            <div class="lesson-callout warning"><div class="lesson-callout-title">Важно</div><p>Проверка автоматическая. Напиши полный код и нажми 'Проверить задание'.</p></div>
-            <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Создай Flask-приложение с классом Data, маршрутами '/' и '/submit' (POST).</p></div></div>
+            <p><strong>Без вариантов ответов. Пиши весь код с нуля.</strong></p>
         `,
-        starterCode: `from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
-class Data:
-    def __init__(self):
-        self.items = []
-
-data = Data()
-
-@app.route('/')
-def index():
-    return jsonify({"status": "ok"})
-
-@app.route('/submit', methods=['POST'])
-def submit():
-    name = request.form.get('name') or request.json.get('name')
-    data.items.append(name)
-    return jsonify({"received": name})
-
-if __name__ == '__main__':
-    app.run(debug=True)`,
-        quiz: { questions: [ { q: "Какой декоратор нужен для маршрута?", options: ["@app.path", "@app.route", "@route"], correct: 1 }, { q: "Как получить JSON из запроса?", options: ["request.data", "request.json", "request.get_json()"], correct: 1 } ] }
+        starterCode: `from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n# Напиши сайт "Библиотека книг" с ООП с нуля\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
+        quiz: { type: 'exam', mode: 'code', title: 'Практический экзамен 1', instructions: 'Напиши с нуля работающий сайт Библиотека книг на Flask с классом Book, формой, маршрутизацией, шаблонами.', checks: ['class', 'route', 'render_template', 'form', 'request'] }
     },
     {
         id: 30, number: "30", title: "REST API архитектура", subtitle: "GET, POST, PUT, DELETE",
@@ -1194,41 +1168,23 @@ jobs:
         quiz: { questions: [ { q: "Что такое CI?", options: ["Continuous Integration", "Code Interface", "Computer Input"], correct: 0 }, { q: "Где хранятся конфигурации?", options: [".github/workflows/", "/ci/", "/actions/"], correct: 0 } ] }
     },
     {
-        id: 39, number: "39", title: "🏆 ПРАКТИЧЕСКИЙ ЭКЗАМЕН 2", subtitle: "REST API с базой данных",
+        id: 39, number: "39", title: "ПРАКТИЧЕСКИЙ ЭКЗАМЕН. Уроки 0-38", subtitle: "Напиши REST API с базой данных с нуля",
         content: `
-            <h1>Экзамен 2: API с БД</h1>
-            <h2>Задача</h2>
-            <p>Напиши Flask-приложение, которое:</p>
+            <h1>ПРАКТИЧЕСКИЙ ЭКЗАМЕН 2</h1>
+            <h2>Задание</h2>
+            <p><strong>Напиши с нуля рабочий REST API для блога с базой данных.</strong></p>
+            <h2>Требования</h2>
             <ul>
-                <li>Использует sqlite3</li>
-                <li>Имеет POST для добавления записи</li>
-                <li>Имеет GET для получения списка</li>
-                <li>Содержит try/except</li>
+                <li>Используй Flask + SQLite (sqlite3) или SQLAlchemy</li>
+                <li>Модель/структура для постов</li>
+                <li>Реализуй CRUD: GET (все), GET (один), POST (создать), PUT/PATCH (обновить), DELETE (удалить)</li>
+                <li>Все ответы в формате JSON через jsonify</li>
+                <li>Обработка ошибок через try/except</li>
             </ul>
-            <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Создай API с маршрутами /add (POST) и /items (GET) с базой данных.</p></div></div>
+            <p><strong>Без вариантов ответов. Пиши весь код с нуля.</strong></p>
         `,
-        starterCode: `from flask import Flask, request, jsonify
-import sqlite3
-
-app = Flask(__name__)
-
-def get_db():
-    return sqlite3.connect("test.db")
-
-@app.route('/add', methods=['POST'])
-def add():
-    try:
-        data = request.json
-        conn = get_db()
-        conn.execute("INSERT INTO items (name) VALUES (?)", (data['name'],))
-        conn.commit()
-        return jsonify({"status": "success"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)`,
-        quiz: { questions: [ { q: "Как получить JSON из запроса?", options: ["request.data", "request.json", "request.get_json()"], correct: 1 }, { q: "Какой код при ошибке сервера?", options: ["200", "404", "500"], correct: 2 } ] }
+        starterCode: `from flask import Flask, request, jsonify\nimport sqlite3\n\napp = Flask(__name__)\n\n# Напиши REST API блога с БД с нуля\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
+        quiz: { type: 'exam', mode: 'code', title: 'Практический экзамен 2', instructions: 'Напиши с нуля REST API блога с CRUD операциями и работой с БД.', checks: ['sqlite', 'route', 'jsonify', 'try'] }
     },
     {
         id: 40, number: "40", title: "Безопасность: XSS и CSRF", subtitle: "Защита приложений",
@@ -1490,48 +1446,23 @@ python app.py
         quiz: { questions: [ { q: "Что важно в GitHub профиле?", options: ["Количество звёзд", "Читаемый README и чистый код", "Цвет аватарки"], correct: 1 }, { q: "Сколько проектов в портфолио?", options: ["1", "3-4 качественных", "20 недоделанных"], correct: 1 } ] }
     },
     {
-        id: 49, number: "49", title: "🎓 ФИНАЛЬНЫЙ ЭКЗАМЕН", subtitle: "Полноценное веб-приложение",
+        id: 49, number: "49", title: "🎓 ФИНАЛЬНЫЙ ЭКЗАМЕН. Уроки 0-48", subtitle: "Полноценное веб-приложение с нуля",
         content: `
-            <h1>Финальный экзамен</h1>
-            <h2>Задача</h2>
-            <p>Напиши код, объединяющий всё:</p>
+            <h1>ФИНАЛЬНЫЙ ЭКЗАМЕН</h1>
+            <h2>Задание</h2>
+            <p><strong>Напиши с нуля полноценное рабочее веб-приложение "Портал объявлений".</strong></p>
+            <h2>Требования</h2>
             <ul>
-                <li>Класс для структуры (ООП)</li>
-                <li>Маршруты Flask (@app.route)</li>
-                <li>Работа с БД (sqlite3)</li>
-                <li>Обработка ошибок (try/except)</li>
-                <li>Возврат JSON</li>
+                <li>Flask + SQLite (sqlite3) или SQLAlchemy</li>
+                <li>Регистрация/авторизация с использованием session</li>
+                <li>CRUD для объявлений (создание, просмотр, редактирование, удаление)</li>
+                <li>Шаблоны Jinja2 в templates/, CSS в static/</li>
+                <li>Валидация форм</li>
+                <li>Обработка ошибок через try/except</li>
             </ul>
-            <div class="lesson-callout success"><div class="lesson-callout-title">Поздравляю!</div><p>Если ты пройдёшь эту проверку, ты готов к реальной разработке.</p></div>
-            <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Создай Flask-приложение с классом Database, маршрутами и БД.</p></div></div>
+            <p><strong>Без вариантов ответов. Пиши весь код с нуля.</strong></p>
         `,
-        starterCode: `from flask import Flask, request, jsonify
-import sqlite3
-
-app = Flask(__name__)
-
-class Database:
-    def __init__(self):
-        self.conn = sqlite3.connect("final.db")
-        self.conn.execute("CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY, title TEXT)")
-
-@app.route('/')
-def index():
-    return jsonify({"message": "Финальный экзамен"})
-
-@app.route('/api/tasks', methods=['POST'])
-def add_task():
-    try:
-        data = request.json
-        db = Database()
-        db.conn.execute("INSERT INTO tasks (title) VALUES (?)", (data['title'],))
-        db.conn.commit()
-        return jsonify({"status": "success"})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)`,
-        quiz: { questions: [ { q: "Ты готов стать разработчиком?", options: ["Да!", "Конечно!", "Уже пишу резюме!"], correct: 0 }, { q: "Что делать, если код не работает?", options: ["Бросить", "Читать ошибку и гуглить", "Удалить всё"], correct: 1 } ] }
+        starterCode: `from flask import Flask, render_template, request, redirect, session\nimport sqlite3\n\napp = Flask(__name__)\napp.secret_key = 'exam_key'\n\n# Напиши портал объявлений с нуля\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
+        quiz: { type: 'exam', mode: 'code', title: 'Финальный экзамен', instructions: 'Напиши с нуля полноценное веб-приложение с авторизацией, CRUD, БД, сессиями.', checks: ['route', 'render_template', 'sqlite', 'session', 'try'] }
     }
 ];

@@ -17,26 +17,40 @@ const checks = {
     16: (code) => { return /render_template/.test(code) && (/'index\.html'/.test(code) || /"index\.html"/.test(code)) && (/{{/.test(code) || /{%/.test(code)) ? { ok: true, message: "Шаблоны Jinja2 работают!" } : { ok: false, message: "Используй render_template, передай переменную и выведи через {{ }}." }; },
     17: (code) => { return /request\.form/.test(code) && /methods\s*=.*POST/.test(code) && /<form/.test(code) && /method\s*=\s*["']POST["']/.test(code) ? { ok: true, message: "Формы обрабатываются правильно!" } : { ok: false, message: "Нужны request.form, methods=['GET','POST'] и HTML-форма с POST." }; },
     
+    19: (code) => {
+        if (!/from flask import Flask/.test(code)) return { ok: false, message: "Нужен Flask" };
+        if ((code.match(/@app\.route/g) || []).length < 3) return { ok: false, message: "Нужно минимум 3 маршрута" };
+        if (!/render_template/.test(code)) return { ok: false, message: "Используй render_template" };
+        if (!/templates/.test(code) && !/base\.html/.test(code)) return { ok: false, message: "Используй templates/" };
+        if (!/static/.test(code) && !/style\.css/.test(code)) return { ok: false, message: "Подключи CSS из static/" };
+        if (!/methods\s*=.*POST/.test(code) || !/request\.form/.test(code)) return { ok: false, message: "Сделай форму с POST и request.form" };
+        return { ok: true, message: "🏆 Промежуточный экзамен сдан!" };
+    },
+    
     // ПРОВЕРКИ ДЛЯ ПРАКТИЧЕСКИХ ЭКЗАМЕНОВ
     29: (code) => {
-        if (!/class\s+\w+/.test(code)) return { ok: false, message: "Используй класс (class) для структуры данных" };
-        if (!/@app\.route/.test(code)) return { ok: false, message: "Добавь маршрут @app.route" };
-        if (!/request\.form|request\.json/.test(code)) return { ok: false, message: "Обработай данные запроса (request.form или request.json)" };
-        if (!/render_template|jsonify/.test(code)) return { ok: false, message: "Верни ответ через render_template или jsonify" };
-        return { ok: true, message: "🏆 Экзамен 1 сдан! Отличная архитектура." };
+        if (!/class\s+\w+/.test(code)) return { ok: false, message: "Используй класс (class)" };
+        if ((code.match(/@app\.route/g) || []).length < 4) return { ok: false, message: "Нужно минимум 4 маршрута" };
+        if (!/render_template/.test(code)) return { ok: false, message: "Используй render_template" };
+        if (!/templates/.test(code) || !/static/.test(code)) return { ok: false, message: "Нужны templates/ и static/" };
+        if (!/methods\s*=.*POST/.test(code) || !/request\.form/.test(code)) return { ok: false, message: "Сделай форму с POST и request.form" };
+        return { ok: true, message: "🏆 Практический экзамен 1 сдан!" };
     },
     39: (code) => {
-        if (!/sqlite3|SQLAlchemy|from flask_sqlalchemy/.test(code)) return { ok: false, message: "Используй базу данных (sqlite3 или SQLAlchemy)" };
-        if (!/def\s+.*\(/.test(code)) return { ok: false, message: "Используй функции для маршрутов" };
-        if (!/try\s*:/.test(code)) return { ok: false, message: "Добавь обработку ошибок (try/except)" };
-        return { ok: true, message: "🏆 Экзамен 2 сдан! Работа с БД и API на высоте." };
+        if (!/sqlite3|SQLAlchemy|from flask_sqlalchemy/.test(code)) return { ok: false, message: "Используй базу данных" };
+        if ((code.match(/@app\.route/g) || []).length < 4) return { ok: false, message: "Нужны CRUD маршруты" };
+        if (!/jsonify/.test(code)) return { ok: false, message: "Возвращай JSON через jsonify" };
+        if (!/(methods\s*=.*GET.*POST|POST.*PUT|PUT.*DELETE)/.test(code) && !/methods\s*=.*\['POST'\].*methods\s*=.*\['PUT'\]/.test(code)) return { ok: false, message: "Реализуй CRUD с разными методами" };
+        if (!/try\s*:/.test(code)) return { ok: false, message: "Добавь try/except" };
+        return { ok: true, message: "🏆 Практический экзамен 2 сдан!" };
     },
     49: (code) => {
-        if (!/class\s+/.test(code)) return { ok: false, message: "Используй ООП (class)" };
-        if (!/@app\.route/.test(code)) return { ok: false, message: "Создай маршруты Flask" };
+        if ((code.match(/@app\.route/g) || []).length < 5) return { ok: false, message: "Нужно много маршрутов для портала объявлений" };
+        if (!/render_template/.test(code)) return { ok: false, message: "Используй шаблоны" };
         if (!/sqlite3|SQLAlchemy/.test(code)) return { ok: false, message: "Подключи базу данных" };
-        if (!/render_template|jsonify/.test(code)) return { ok: false, message: "Используй шаблоны или JSON" };
-        if (!/try\s*:/.test(code)) return { ok: false, message: "Добавь обработку ошибок" };
+        if (!/session/.test(code)) return { ok: false, message: "Используй session для авторизации" };
+        if (!/methods\s*=.*POST/.test(code)) return { ok: false, message: "Нужны формы с POST" };
+        if (!/try\s*:/.test(code)) return { ok: false, message: "Добавь try/except" };
         return { ok: true, message: "🎉 ФИНАЛЬНЫЙ ЭКЗАМЕН СДАН! Ты готов к реальной разработке!" };
     }
 };

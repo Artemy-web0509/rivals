@@ -102,10 +102,21 @@ function renderNav() {
     });
 }
 
+function isLessonTaskCompleted(lessonId) {
+    return completed.has(lessonId);
+}
+
 function renderLesson(lesson) {
     if (!lessonContent) return;
     if (completed.has(lesson.id)) { renderLessonContent(lesson); return; }
-    if (showQuizMode && lesson.quiz) { renderQuiz(lesson); return; }
+    if (lesson.quiz) {
+        if (!isLessonTaskCompleted(lesson.id)) {
+            renderLessonContent(lesson);
+            return;
+        }
+        renderQuiz(lesson);
+        return;
+    }
     renderLessonContent(lesson);
 }
 
@@ -117,13 +128,13 @@ function renderLessonContent(lesson) {
     }
     html += lesson.content;
     if (lesson.quiz && !completed.has(lesson.id)) {
-        html += `<div class="lesson-quiz-prompt"><h3>📝 Проверка знаний</h3><p>Ответь на вопросы, чтобы закрепить материал. <strong>Во время теста теория будет скрыта!</strong></p><button class="btn primary" id="startQuizBtn" style="margin-top: 1rem;">Начать тест</button></div>`;
+        if (isLessonTaskCompleted(lesson.id)) {
+            // Don't show button, test will auto-start
+        } else {
+            html += `<div class="lesson-quiz-prompt"><h3>📝 Тест по уроку</h3><p><strong>Доступен после прохождения заданий урока.</strong> Сначала выполни и проверь задание в редакторе.</p></div>`;
+        }
     }
     lessonContent.innerHTML = html;
-    const startQuizBtn = document.getElementById('startQuizBtn');
-    if (startQuizBtn) {
-        startQuizBtn.addEventListener('click', () => { showQuizMode = true; renderLesson(lesson); });
-    }
     if (checkTaskBtn) {
         checkTaskBtn.textContent = completed.has(lesson.id) ? 'Урок пройден ✓' : 'Проверить задание';
         checkTaskBtn.disabled = completed.has(lesson.id);
@@ -135,6 +146,38 @@ function renderLessonContent(lesson) {
 }
 
 function renderQuiz(lesson) {
+    if (lesson.quiz.mode === 'code' || lesson.quiz.type === 'exam') {
+        let html = `<div class="quiz-container"><h2>📝 ${lesson.quiz.title || 'Экзамен'}</h2><p class="quiz-warning">⚠️ Теория скрыта. Подсмотреть нельзя!</p>`;
+        html += `<p>${lesson.quiz.instructions || 'Напиши работающий код с нуля, используя только пройденные темы.'}</p>`;
+        html += `<div style="margin-top: 2rem; display: flex; gap: 1rem;"><button class="btn primary" id="submitQuizBtn">Проверить экзамен</button><button class="btn ghost" id="cancelQuizBtn">Вернуться к заданию</button></div><div id="quizResult" class="lesson-check-info" style="margin-top: 1rem;"></div></div>`;
+        lessonContent.innerHTML = html;
+        document.getElementById('submitQuizBtn').addEventListener('click', () => {
+            const code = getCode();
+            if (!code || !code.trim()) {
+                const resultDiv = document.getElementById('quizResult');
+                resultDiv.textContent = "Напиши код в редакторе перед проверкой.";
+                resultDiv.className = "lesson-check-info warn";
+                return;
+            }
+            const result = checkTask(lesson.id, code);
+            const resultDiv = document.getElementById('quizResult');
+            if (result.ok) {
+                resultDiv.textContent = result.message;
+                resultDiv.className = "lesson-check-info success";
+                completed.add(lesson.id);
+                saveProgress();
+                updateProgress();
+                renderNav();
+                if (checkTaskBtn) { checkTaskBtn.textContent = 'Урок пройден ✓'; checkTaskBtn.disabled = true; }
+                if (checkResultText) { checkResultText.textContent = 'Экзамен пройден. Урок засчитан.'; checkResultText.className = 'lesson-check-info success'; }
+            } else {
+                resultDiv.textContent = result.message;
+                resultDiv.className = "lesson-check-info error";
+            }
+        });
+        document.getElementById('cancelQuizBtn').addEventListener('click', () => { showQuizMode = false; renderLesson(lesson); });
+        return;
+    }
     let html = `<div class="quiz-container"><h2>📝 Тест по уроку ${lesson.number}: ${lesson.title}</h2><p class="quiz-warning">⚠️ Теория скрыта. Подсмотреть нельзя!</p>`;
     lesson.quiz.questions.forEach((q, idx) => {
         html += `<div class="quiz-question"><p><strong>${idx + 1}. ${q.q}</strong></p>${q.options.map((opt, optIdx) => `<label class="quiz-option"><input type="radio" name="q${idx}" value="${optIdx}"><span>${opt}</span></label>`).join('')}</div>`;
@@ -193,7 +236,12 @@ if (checkTaskBtn) {
             saveProgress();
             updateProgress();
             renderNav();
-            renderLesson(lesson);
+            if (lesson.quiz) {
+                showQuizMode = true;
+                renderLesson(lesson);
+            } else {
+                renderLesson(lesson);
+            }
         }
     });
 }
