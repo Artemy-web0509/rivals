@@ -197,11 +197,11 @@ function renderQuiz(lesson) {
         document.getElementById('cancelQuizBtn').addEventListener('click', () => { showQuizMode = false; renderLesson(lesson); });
         return;
     }
-    let html = `<div class="quiz-container"><h2>📝 Тест по уроку ${lesson.number}: ${lesson.title}</h2><p class="quiz-warning">⚠️ Теория скрыта. Подсмотреть нельзя!</p>`;
+    let html = `<div class="quiz-container"><h2>📝 Тест только по материалу урока ${lesson.number}: ${lesson.title}</h2><p class="quiz-warning">⚠️ Теория скрыта. Подсмотреть нельзя!</p>`;
     lesson.quiz.questions.forEach((q, idx) => {
         html += `<div class="quiz-question"><p><strong>${idx + 1}. ${q.q}</strong></p>${q.options.map((opt, optIdx) => `<label class="quiz-option"><input type="radio" name="q${idx}" value="${optIdx}"><span>${opt}</span></label>`).join('')}</div>`;
     });
-    html += `<div style="margin-top: 2rem; display: flex; gap: 1rem;"><button class="btn primary" id="submitQuizBtn">Проверить тест</button><button class="btn ghost" id="cancelQuizBtn">Вернуться к теории</button></div><div id="quizResult" class="lesson-check-info" style="margin-top: 1rem;"></div></div>`;
+    html += `<div style="margin-top: 2rem; display: flex; gap: 1rem;"><button class="btn primary" id="submitQuizBtn">Проверить тест</button><button class="btn ghost" id="cancelQuizBtn">Вернуться к заданию</button></div><div id="quizResult" class="lesson-check-info" style="margin-top: 1rem;"></div></div>`;
     lessonContent.innerHTML = html;
     
     document.getElementById('submitQuizBtn').addEventListener('click', () => {
@@ -219,9 +219,9 @@ function renderQuiz(lesson) {
             updateProgress();
             renderNav();
             if (checkTaskBtn) { checkTaskBtn.textContent = 'Урок пройден ✓'; checkTaskBtn.disabled = true; }
-            if (checkResultText) { checkResultText.textContent = 'Задание выполнено. Урок пройден.'; checkResultText.className = 'lesson-check-info success'; }
+            if (checkResultText) { checkResultText.textContent = 'Задание выполнено. Тест пройден. Урок засчитан.'; checkResultText.className = 'lesson-check-info success'; }
         } else {
-            resultDiv.textContent = "❌ Есть ошибки. Попробуй ещё раз или вернись к теории.";
+            resultDiv.textContent = "❌ Есть ошибки. Попробуй ещё раз.";
             resultDiv.className = "lesson-check-info error";
         }
     });
