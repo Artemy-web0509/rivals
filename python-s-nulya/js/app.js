@@ -39,9 +39,19 @@ const registerError = document.getElementById('registerError');
 
 let currentLessonId = 0;
 let completed = new Set();
+try {
+    const keys = Object.keys(localStorage);
+    keys.forEach(k => {
+        if (k.includes('progress') || k.includes('python') && k.includes('prog')) {
+            try { localStorage.removeItem(k); } catch (e) {}
+        }
+    });
+} catch (e) {}
 let currentSession = null;
 try { currentSession = auth.getSession(); } catch (e) { currentSession = null; }
 let progressKey = auth.progressKey(currentSession?.username);
+try { localStorage.setItem(progressKey, JSON.stringify([])); } catch (e) {}
+completed = new Set();
 let showQuizMode = false;
 
 function updateUserUI() {
@@ -93,11 +103,18 @@ function updateProgress() {
 function renderNav() {
     if (!lessonsNav) return;
     lessonsNav.innerHTML = '';
-    lessons.forEach((lesson) => {
+    lessons.forEach((lesson, idx) => {
         const button = document.createElement('button');
-        button.className = 'lesson-item' + (lesson.id === currentLessonId ? ' active' : '') + (completed.has(lesson.id) ? ' done' : '');
-        button.innerHTML = `<span class="lesson-number">${lesson.number}</span><span class="lesson-meta"><span class="lesson-title">${lesson.title}</span><span class="lesson-subtitle">${lesson.subtitle}</span></span>`;
-        button.addEventListener('click', () => openLesson(lesson.id));
+        const isLocked = idx > 0 && !completed.has(lessons[idx - 1].id);
+        button.className = 'lesson-item' + (lesson.id === currentLessonId ? ' active' : '') + (completed.has(lesson.id) ? ' done' : '') + (isLocked ? ' locked' : '');
+        button.innerHTML = `<span class="lesson-number">${lesson.number}</span><span class="lesson-meta"><span class="lesson-title">${lesson.title}</span><span class="lesson-subtitle">${lesson.subtitle}</span></span>${isLocked ? '<span class="lesson-lock">🔒</span>' : ''}`;
+        button.addEventListener('click', () => {
+            if (isLocked) {
+                alert('Сначала пройди предыдущий урок полностью (включая тест).');
+                return;
+            }
+            openLesson(lesson.id);
+        });
         lessonsNav.appendChild(button);
     });
 }
@@ -210,9 +227,14 @@ function renderQuiz(lesson) {
 }
 
 function openLesson(id) {
-    currentLessonId = id;
     const lesson = lessons.find((item) => item.id === id);
     if (!lesson) return;
+    const idx = lessons.findIndex((item) => item.id === id);
+    if (idx > 0 && !completed.has(lessons[idx - 1].id)) {
+        alert('Сначала пройди предыдущий урок полностью.');
+        return;
+    }
+    currentLessonId = id;
     renderNav();
     renderLesson(lesson);
     setCode(lesson.starterCode || '');

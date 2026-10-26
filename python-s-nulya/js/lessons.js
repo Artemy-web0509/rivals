@@ -19,7 +19,7 @@
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Выведи своё имя и фразу "Я учусь писать сайты" двумя print()</p></div></div>
         `,
         starterCode: `print("Привет, мир!")\n`,
-        quiz: { questions: [ { q: "Какая функция выводит текст на экран?", options: ["echo()", "print()", "log()"], correct: 1 }, { q: "Текст в Python обязательно брать в...", options: ["Круглые скобки", "Кавычки", "Фигурные скобки"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какая функция выводит текст на экран?", options: ["echo()", "print()", "log()"], correct: 1 }, { q: "Текст в Python обязательно брать в...", options: ["Круглые скобки", "Кавычки", "Фигурные скобки"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 1, number: "1", title: "Переменные, типы данных, ввод/вывод", subtitle: "Храним и получаем данные",
@@ -43,7 +43,7 @@ print("Через год:", возраст + 1)</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай анкету: спроси имя, город, возраст (числом). Выведи красивую фразу с помощью f-строки.</p></div></div>
         `,
         starterCode: `имя = input("Как тебя зовут? ")\nвозраст = int(input("Сколько тебе лет? "))\nprint(f"Привет, {имя}! Тебе {возраст} лет.")\n`,
-        quiz: { questions: [ { q: "Как преобразовать строку в число?", options: ["str()", "int()", "float()"], correct: 1 }, { q: "Что делает f перед строкой f'...'", options: ["Делает строку жирной", "Позволяет вставлять переменные в {}", "Ничего не делает"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как преобразовать строку в число?", options: ["str()", "int()", "float()"], correct: 1 }, { q: "Что делает f перед строкой f'...'", options: ["Делает строку жирной", "Позволяет вставлять переменные в {}", "Ничего не делает"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 2, number: "2", title: "Условия if/elif/else", subtitle: "Принимаем решения",
@@ -74,7 +74,7 @@ else:
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай проверку возраста для кино: <12 — мультфильмы, 12-15 — с родителями, >=16 — любые.</p></div></div>
         `,
         starterCode: `возраст = int(input("Сколько тебе лет? "))\nif возраст >= 18:\n    print("Совершеннолетний")\nelse:\n    print("Несовершеннолетний")\n`,
-        quiz: { questions: [ { q: "С каким символом заканчивается строка с if?", options: ["Точка с запятой", "Двоеточие", "Запятая"], correct: 1 }, { q: "Что проверяет оператор == ?", options: ["Присваивание", "Равенство", "Неравенство"], correct: 1 } ] }
+        quiz: { questions: [ { q: "С каким символом заканчивается строка с if?", options: ["Точка с запятой", "Двоеточие", "Запятая"], correct: 1 }, { q: "Что проверяет оператор == ?", options: ["Присваивание", "Равенство", "Неравенство"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 3, number: "3", title: "Циклы for и while", subtitle: "Повторяем код",
@@ -96,7 +96,7 @@ while счёт <= 5:
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Часть А: for от 1 до 10 с квадратом. Часть Б: while с правильным паролем.</p></div></div>
         `,
         starterCode: `for i in range(1, 6):\n    print(i)\n`,
-        quiz: { questions: [ { q: "Какая функция генерирует последовательность чисел?", options: ["generate()", "range()", "list()"], correct: 1 }, { q: "Что будет, если в while не менять переменную?", options: ["Цикл завершится", "Бесконечный цикл", "Ошибка синтаксиса"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какая функция генерирует последовательность чисел?", options: ["generate()", "range()", "list()"], correct: 1 }, { q: "Что будет, если в while не менять переменную?", options: ["Цикл завершится", "Бесконечный цикл", "Ошибка синтаксиса"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 4, number: "4", title: "Списки", subtitle: "Много данных в одном месте",
@@ -116,7 +116,7 @@ print(фрукты[0])</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай "Список покупок" с вводом через while, выход по пустой строке, вывод с нумерацией.</p></div></div>
         `,
         starterCode: `список = ["хлеб", "молоко"]\nсписок.append("яйца")\nprint(список)\n`,
-        quiz: { questions: [ { q: "Как добавить элемент в конец списка?", options: ["add()", "append()", "push()"], correct: 1 }, { q: "Какой индекс у первого элемента списка?", options: ["1", "0", "-1"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как добавить элемент в конец списка?", options: ["add()", "append()", "push()"], correct: 1 }, { q: "Какой индекс у первого элемента списка?", options: ["1", "0", "-1"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 5, number: "5", title: "Словари", subtitle: "Ключ -> значение",
@@ -138,7 +138,7 @@ del пользователь["город"]</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай словарь с контактами. Добавь 3 контакта, выведи все в виде "Имя: телефон".</p></div></div>
         `,
         starterCode: `контакты = {"Аня": "+79001234567", "Миша": "+79007654321"}\nprint(контакты["Аня"])\n`,
-        quiz: { questions: [ { q: "Как получить значение из словаря?", options: ["по индексу", "по ключу", "по порядку"], correct: 1 }, { q: "Какой метод возвращает пары ключ-значение?", options: [".values()", ".items()", ".keys()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как получить значение из словаря?", options: ["по индексу", "по ключу", "по порядку"], correct: 1 }, { q: "Какой метод возвращает пары ключ-значение?", options: [".values()", ".items()", ".keys()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 6, number: "6", title: "Строки, методы, f-строки", subtitle: "Работаем с текстом",
@@ -157,7 +157,7 @@ print(текст.strip().lower())</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай анализатор текста: спроси текст, выведи длину, верхний/нижний регистр, замени слово.</p></div></div>
         `,
         starterCode: `имя = "анна"\nprint(имя.capitalize())\nprint(имя.upper())\n`,
-        quiz: { questions: [ { q: "Какой метод делает все буквы заглавными?", options: [".upper()", ".lower()", ".capitalize()"], correct: 0 }, { q: "Какой метод убирает пробелы по краям?", options: [".trim()", ".strip()", ".clean()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой метод делает все буквы заглавными?", options: [".upper()", ".lower()", ".capitalize()"], correct: 0 }, { q: "Какой метод убирает пробелы по краям?", options: [".trim()", ".strip()", ".clean()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 7, number: "7", title: "Функции", subtitle: "Упаковываем и переиспользуем код",
@@ -188,7 +188,7 @@ print(рез)</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай функции: сложение, вычитание, умножение, деление. Попроси числа и выбери действие.</p></div></div>
         `,
         starterCode: `def приветствие(имя):\n    print(f"Привет, {имя}!")\n\nприветствие("Тест")\n`,
-        quiz: { questions: [ { q: "Какое ключевое слово создаёт функцию?", options: ["func", "def", "function"], correct: 1 }, { q: "Что делает return?", options: ["Выводит на экран", "Возвращает результат из функции", "Останавливает программу"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какое ключевое слово создаёт функцию?", options: ["func", "def", "function"], correct: 1 }, { q: "Что делает return?", options: ["Выводит на экран", "Возвращает результат из функции", "Останавливает программу"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 8, number: "8", title: "Файлы и JSON", subtitle: "Сохраняем данные",
@@ -219,7 +219,7 @@ with open("user.json", "r", encoding="utf-8") as f:
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай заметки: добавь заметку в JSON-файл, при запуске показывай все заметки.</p></div></div>
         `,
         starterCode: `import json\n\nданные = [{"текст": "Первая заметка"}]\nwith open("заметки.json", "w", encoding="utf-8") as f:\n    json.dump(данные, f, ensure_ascii=False, indent=4)\n\nprint("Сохранено!")\n`,
-        quiz: { questions: [ { q: "Какой режим открытия файла для записи?", options: ["'r'", "'w'", "'a'"], correct: 1 }, { q: "Зачем нужен encoding='utf-8'?", options: ["Для скорости", "Для корректной работы с русским текстом", "Для шифрования"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой режим открытия файла для записи?", options: ["'r'", "'w'", "'a'"], correct: 1 }, { q: "Зачем нужен encoding='utf-8'?", options: ["Для скорости", "Для корректной работы с русским текстом", "Для шифрования"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 9, number: "9", title: "Ошибки и try/except", subtitle: "Делаем программу устойчивой",
@@ -248,7 +248,7 @@ except ZeroDivisionError:
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Переделай калькулятор из урока 7 с обработкой ошибок: неверный ввод и деление на ноль.</p></div></div>
         `,
         starterCode: `try:\n    x = int(input("Число: "))\n    print(x * 2)\nexcept ValueError:\n    print("Ошибка! Введи число.")\n`,
-        quiz: { questions: [ { q: "Какой блок выполняется, если ошибки не было?", options: ["finally", "else", "catch"], correct: 1 }, { q: "Какую ошибку вызовет деление на ноль?", options: ["ValueError", "ZeroDivisionError", "TypeError"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой блок выполняется, если ошибки не было?", options: ["finally", "else", "catch"], correct: 1 }, { q: "Какую ошибку вызовет деление на ноль?", options: ["ValueError", "ZeroDivisionError", "TypeError"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 10, number: "10", title: "Модули и библиотеки", subtitle: "Подключаем готовый код",
@@ -274,7 +274,7 @@ print(randint(1,10))</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай "Угадай число" с random. Компьютер загадывает число, ты угадываешь с подсказками больше/меньше.</p></div></div>
         `,
         starterCode: `import random\n\nprint(random.randint(1, 10))\n`,
-        quiz: { questions: [ { q: "Как импортировать конкретную функцию из модуля?", options: ["import func from math", "from math import func", "include math.func"], correct: 1 }, { q: "Какой модуль генерирует случайные числа?", options: ["random", "chance", "luck"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Как импортировать конкретную функцию из модуля?", options: ["import func from math", "from math import func", "include math.func"], correct: 1 }, { q: "Какой модуль генерирует случайные числа?", options: ["random", "chance", "luck"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 11, number: "11", title: "Повторение Python + мини-проект Викторина", subtitle: "Закрепляем базу",
@@ -289,7 +289,7 @@ print(randint(1,10))</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Финальное задание по Python</div></div><div class="lesson-task-body"><p>Сделай викторину минимум из 5 вопросов с подсчётом правильных ответов.</p></div></div>
         `,
         starterCode: `вопросы = [\n    {"вопрос": "Столица России?", "ответ": "москва"},\n    {"вопрос": "2+2=?", "ответ": "4"},\n]\nбаллы = 0\nfor q in вопросы:\n    ans = input(q["вопрос"] + " ").lower()\n    if ans == q["ответ"]:\n        print("Верно!")\n        баллы += 1\n    else:\n        print("Неверно")\nprint("Результат:", баллы, "/", len(вопросы))\n`,
-        quiz: { questions: [ { q: "Что лучше использовать для хранения вопроса и ответа?", options: ["Список", "Словарь", "Строка"], correct: 1 }, { q: "Как привести ответ пользователя к нижнему регистру?", options: [".down()", ".lower()", ".small()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что лучше использовать для хранения вопроса и ответа?", options: ["Список", "Словарь", "Строка"], correct: 1 }, { q: "Как привести ответ пользователя к нижнему регистру?", options: [".down()", ".lower()", ".small()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 12, number: "12", title: "Введение в HTML", subtitle: "Строим структуру сайта",
@@ -316,7 +316,7 @@ print(randint(1,10))</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай страницу "Обо мне": заголовок, фото-текст, хобби списком, ссылку на соцсеть.</p></div></div>
         `,
         starterCode: `<!DOCTYPE html>\n<html lang="ru">\n<head>\n  <meta charset="UTF-8">\n  <title>Мой первый сайт</title>\n</head>\n<body>\n  <h1>Привет, мир!</h1>\n  <p>Я учусь создавать сайты</p>\n</body>\n</html>\n`,
-        quiz: { questions: [ { q: "Какой тег создаёт самый большой заголовок?", options: ["<head>", "<h1>", "<title>"], correct: 1 }, { q: "Какой атрибут задаёт ссылку в теге <a>?", options: ["src", "href", "link"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой тег создаёт самый большой заголовок?", options: ["<head>", "<h1>", "<title>"], correct: 1 }, { q: "Какой атрибут задаёт ссылку в теге <a>?", options: ["src", "href", "link"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 13, number: "13", title: "Введение в CSS", subtitle: "Оформляем сайт",
@@ -353,7 +353,7 @@ p {
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Оформи страницу из урока 12: фон, цвет заголовка, выравнивание, отступы.</p></div></div>
         `,
         starterCode: `body {\n  background-color: #1f1f1f;\n  color: white;\n  font-family: Arial, sans-serif;\n}\n\nh1 {\n  text-align: center;\n  color: #4f9bff;\n}\n`,
-        quiz: { questions: [ { q: "Как подключить внешний CSS файл?", options: ["<style>", "<link rel='stylesheet'>", "<css>"], correct: 1 }, { q: "Как обратиться к классу в CSS?", options: ["#имя", ".имя", "@имя"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как подключить внешний CSS файл?", options: ["<style>", "<link rel='stylesheet'>", "<css>"], correct: 1 }, { q: "Как обратиться к классу в CSS?", options: ["#имя", ".имя", "@имя"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 14, number: "14", title: "Как работает веб. Браузер-сервер", subtitle: "Понимаем основы",
@@ -374,7 +374,7 @@ p {
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Опиши своими словами: как открывается сайт от ввода адреса до показа в браузере.</p></div></div>
         `,
         starterCode: `# Теория\n# GET - получить\n# POST - отправить\nprint("Понял принцип работы сайта")\n`,
-        quiz: { questions: [ { q: "Какой HTTP-метод используется для отправки формы?", options: ["GET", "POST", "SEND"], correct: 1 }, { q: "Что такое сервер?", options: ["Программа на компьютере пользователя", "Компьютер, который отдаёт данные по запросу", "Браузер"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой HTTP-метод используется для отправки формы?", options: ["GET", "POST", "SEND"], correct: 1 }, { q: "Что такое сервер?", options: ["Программа на компьютере пользователя", "Компьютер, который отдаёт данные по запросу", "Браузер"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 15, number: "15", title: "Знакомство с Flask", subtitle: "Первый сайт на Python",
@@ -402,7 +402,7 @@ if __name__ == '__main__':
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай 2 маршрута: / — главная, /about — страница "Обо мне". На каждой верни разный HTML.</p></div></div>
         `,
         starterCode: `from flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    return "<h1>Главная страница</h1>"\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
-        quiz: { questions: [ { q: "Какой декоратор задаёт маршрут?", options: ["@app.path", "@app.route", "@route"], correct: 1 }, { q: "Что делает debug=True?", options: ["Ускоряет сайт", "Показывает ошибки в браузере и перезагружает сервер", "Шифрует код"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой декоратор задаёт маршрут?", options: ["@app.path", "@app.route", "@route"], correct: 1 }, { q: "Что делает debug=True?", options: ["Ускоряет сайт", "Показывает ошибки в браузере и перезагружает сервер", "Шифрует код"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 16, number: "16", title: "Шаблоны Jinja2", subtitle: "Отдельные HTML-файлы",
@@ -451,7 +451,7 @@ def home():
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай страницу с циклом: передай список любимых фильмов и выведи их в виде списка &lt;ul&gt;.</p></div></div>
         `,
         starterCode: `from flask import Flask, render_template\n\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return render_template('index.html', имя="Тест")\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
-        quiz: { questions: [ { q: "Как передать переменную в шаблон?", options: ["render_template('f.html', var=value)", "send(var)", "html(var)"], correct: 0 }, { q: "Как вывести переменную в Jinja2?", options: ["{ var }", "{{ var }}", "<%= var %>"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как передать переменную в шаблон?", options: ["render_template('f.html', var=value)", "send(var)", "html(var)"], correct: 0 }, { q: "Как вывести переменную в Jinja2?", options: ["{ var }", "{{ var }}", "<%= var %>"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 17, number: "17", title: "Формы и обработка данных", subtitle: "Получаем данные от пользователя",
@@ -487,7 +487,7 @@ if __name__ == '__main__':
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Сделай форму "Обратная связь": имя, email, сообщение. При отправке показывай "Спасибо за сообщение, [имя]!".</p></div></div>
         `,
         starterCode: `from flask import Flask, render_template, request\n\napp = Flask(__name__)\n\n@app.route('/', methods=['GET', 'POST'])\ndef index():\n    if request.method == 'POST':\n        имя = request.form.get('имя')\n        return f"<h2>Привет, {имя}!</h2>"\n    return render_template('index.html')\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
-        quiz: { questions: [ { q: "Откуда брать данные формы во Flask?", options: ["request.data", "request.form", "request.input"], correct: 1 }, { q: "Какой атрибут обязателен у <input> для отправки?", options: ["id", "name", "class"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Откуда брать данные формы во Flask?", options: ["request.data", "request.form", "request.input"], correct: 1 }, { q: "Какой атрибут обязателен у <input> для отправки?", options: ["id", "name", "class"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 18, number: "18", title: "Проект: Гостевая книга на Flask", subtitle: "Первый полноценный сайт",
@@ -513,7 +513,7 @@ if __name__ == '__main__':
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Собери гостевую книгу по плану выше. Минимум: форма + сохранение в JSON + вывод всех отзывов.</p></div></div>
         `,
         starterCode: `# app.py заготовка\nfrom flask import Flask, render_template, request, redirect\nimport json, os\nfrom datetime import datetime\n\napp = Flask(__name__)\n\n@app.route('/')\ndef index():\n    return render_template('index.html')\n\n@app.route('/add', methods=['GET', 'POST'])\ndef add():\n    if request.method == 'POST':\n        # TODO: сохранить отзыв\n        return redirect('/')\n    return render_template('add.html')\n\nif __name__ == '__main__':\n    app.run(debug=True)\n`,
-        quiz: { questions: [ { q: "Как перенаправить пользователя на другую страницу?", options: ["return redirect('/')", "return go('/')", "window.location"], correct: 0 }, { q: "Где должны лежать HTML-шаблоны во Flask?", options: ["В корне", "В папке templates", "В папке static"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как перенаправить пользователя на другую страницу?", options: ["return redirect('/')", "return go('/')", "window.location"], correct: 0 }, { q: "Где должны лежать HTML-шаблоны во Flask?", options: ["В корне", "В папке templates", "В папке static"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 19, number: "19", title: "ПРОМЕЖУТОЧНЫЙ ЭКЗАМЕН. Уроки 0-18", subtitle: "Напиши работающий сайт на Flask с нуля",
@@ -573,7 +573,7 @@ print(user1.name)</code></pre>
 
 student = Student("Артём", "отлично")
 print(student.introduce())`,
-        quiz: { questions: [ { q: "Что такое self в Python?", options: ["Указатель на текущий объект", "Глобальная переменная", "Ключевое слово для импорта"], correct: 0 }, { q: "Какой метод является конструктором?", options: ["__start__", "__init__", "create"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что такое self в Python?", options: ["Указатель на текущий объект", "Глобальная переменная", "Ключевое слово для импорта"], correct: 0 }, { q: "Какой метод является конструктором?", options: ["__start__", "__init__", "create"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 21, number: "21", title: "Наследование и инкапсуляция", subtitle: "Расширяем возможности классов",
@@ -624,7 +624,7 @@ class Admin(User):
 
 admin = Admin("Артём", "superuser")
 print(admin.greet())`,
-        quiz: { questions: [ { q: "Как вызвать метод родительского класса?", options: ["super()", "parent()", "base()"], correct: 0 }, { q: "Как сделать атрибут приватным?", options: ["_name", "__name", "private name"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как вызвать метод родительского класса?", options: ["super()", "parent()", "base()"], correct: 0 }, { q: "Как сделать атрибут приватным?", options: ["_name", "__name", "private name"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 22, number: "22", title: "Декораторы", subtitle: "Модификация функций",
@@ -676,7 +676,7 @@ def test():
     return "Готово!"
 
 print(test())`,
-        quiz: { questions: [ { q: "Какой символ используется для декоратора?", options: ["#", "@", "&"], correct: 1 }, { q: "Что возвращает декоратор?", options: ["Новую функцию-обёртку", "Число", "Строку"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Какой символ используется для декоратора?", options: ["#", "@", "&"], correct: 1 }, { q: "Что возвращает декоратор?", options: ["Новую функцию-обёртку", "Число", "Строку"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 23, number: "23", title: "Генераторы и yield", subtitle: "Экономия памяти",
@@ -707,7 +707,7 @@ squares_gen = (x**2 for x in range(1000))</code></pre>
 
 for i in even_numbers(20):
     print(i)`,
-        quiz: { questions: [ { q: "Что делает yield?", options: ["Завершает функцию", "Приостанавливает и возвращает значение", "Импортирует модуль"], correct: 1 }, { q: "Какой тип данных возвращает функция с yield?", options: ["Список", "Генератор", "Словарь"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что делает yield?", options: ["Завершает функцию", "Приостанавливает и возвращает значение", "Импортирует модуль"], correct: 1 }, { q: "Какой тип данных возвращает функция с yield?", options: ["Список", "Генератор", "Словарь"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 24, number: "24", title: "Работа с API (requests)", subtitle: "Получаем данные из интернета",
@@ -734,7 +734,7 @@ print(response.json())</code></pre>
 response = requests.get("https://jsonplaceholder.typicode.com/posts/1")
 data = response.json()
 print(f"Заголовок: {data['title']}")`,
-        quiz: { questions: [ { q: "Какой метод используется для получения данных?", options: ["requests.post", "requests.get", "requests.fetch"], correct: 1 }, { q: "Как преобразовать ответ в словарь Python?", options: [".text()", ".json()", ".dict()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой метод используется для получения данных?", options: ["requests.post", "requests.get", "requests.fetch"], correct: 1 }, { q: "Как преобразовать ответ в словарь Python?", options: [".text()", ".json()", ".dict()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 25, number: "25", title: "Базы данных SQLite", subtitle: "Хранение данных структурированно",
@@ -787,7 +787,7 @@ cursor.execute("SELECT * FROM users")
 print(cursor.fetchall())
 
 conn.close()`,
-        quiz: { questions: [ { q: "Какой метод выполняет SQL-запрос?", options: ["cursor.run", "cursor.execute", "cursor.do"], correct: 1 }, { q: "Что нужно вызвать после INSERT для сохранения?", options: ["conn.save()", "conn.commit()", "conn.push()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой метод выполняет SQL-запрос?", options: ["cursor.run", "cursor.execute", "cursor.do"], correct: 1 }, { q: "Что нужно вызвать после INSERT для сохранения?", options: ["conn.save()", "conn.commit()", "conn.push()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 26, number: "26", title: "Виртуальные окружения", subtitle: "Изоляция зависимостей",
@@ -813,7 +813,7 @@ pip install -r requirements.txt</code></pre>
             <div class="lesson-task"><div class="lesson-task-header"><div class="lesson-task-title">Задание</div></div><div class="lesson-task-body"><p>Изучи команды создания venv для твоей ОС.</p></div></div>
         `,
         starterCode: `# В терминале:\n# python -m venv venv\n# source venv/bin/activate (Linux/Mac)\n# venv\\Scripts\\activate (Windows)\nprint("Окружение активировано!")`,
-        quiz: { questions: [ { q: "Зачем нужно виртуальное окружение?", options: ["Для ускорения кода", "Для изоляции библиотек проекта", "Для шифрования данных"], correct: 1 }, { q: "Где хранится файл с зависимостями?", options: ["config.txt", "requirements.txt", "deps.json"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Зачем нужно виртуальное окружение?", options: ["Для ускорения кода", "Для изоляции библиотек проекта", "Для шифрования данных"], correct: 1 }, { q: "Где хранится файл с зависимостями?", options: ["config.txt", "requirements.txt", "deps.json"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 27, number: "27", title: "Тестирование (unittest)", subtitle: "Пишем надёжный код",
@@ -845,7 +845,7 @@ class TestMultiply(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()`,
-        quiz: { questions: [ { q: "Какой метод проверяет равенство?", options: ["self.check_equal", "self.assertEqual", "self.is_equal"], correct: 1 }, { q: "От какого класса наследовать тест?", options: ["unittest.Test", "unittest.TestCase", "unittest.Runner"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой метод проверяет равенство?", options: ["self.check_equal", "self.assertEqual", "self.is_equal"], correct: 1 }, { q: "От какого класса наследовать тест?", options: ["unittest.Test", "unittest.TestCase", "unittest.Runner"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 28, number: "28", title: "Логирование (logging)", subtitle: "Отслеживание событий",
@@ -866,7 +866,7 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logging.info("Приложение запущено")
 logging.warning("Внимание: мало места")
 logging.error("Произошла ошибка!")`,
-        quiz: { questions: [ { q: "Какой уровень логирования самый критичный?", options: ["INFO", "WARNING", "CRITICAL"], correct: 2 }, { q: "Зачем использовать logging?", options: ["Можно выводить в файл и управлять уровнями", "Он быстрее", "Он красивее"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Какой уровень логирования самый критичный?", options: ["INFO", "WARNING", "CRITICAL"], correct: 2 }, { q: "Зачем использовать logging?", options: ["Можно выводить в файл и управлять уровнями", "Он быстрее", "Он красивее"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 29, number: "29", title: "ПРАКТИЧЕСКИЙ ЭКЗАМЕН. Уроки 0-28", subtitle: "Напиши работающий сайт с ООП на Flask с нуля",
@@ -916,7 +916,7 @@ def get_user(user_id):
 
 if __name__ == '__main__':
     app.run(debug=True)`,
-        quiz: { questions: [ { q: "Какой метод для обновления данных?", options: ["POST", "PUT", "DELETE"], correct: 1 }, { q: "Что возвращать при успешном создании?", options: ["200 OK", "201 Created", "404 Not Found"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какой метод для обновления данных?", options: ["POST", "PUT", "DELETE"], correct: 1 }, { q: "Что возвращать при успешном создании?", options: ["200 OK", "201 Created", "404 Not Found"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 31, number: "31", title: "Аутентификация и JWT", subtitle: "Безопасный вход",
@@ -945,7 +945,7 @@ print("Токен:", token)
 
 decoded = jwt.decode(token, secret, algorithms=["HS256"])
 print("Расшифровано:", decoded)`,
-        quiz: { questions: [ { q: "Что хранится внутри JWT?", options: ["Только пароль", "Полезная нагрузка и подпись", "Исходный код"], correct: 1 }, { q: "Почему секретный ключ должен быть надёжным?", options: ["Для скорости", "Чтобы никто не подделал токен", "Для совместимости"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что хранится внутри JWT?", options: ["Только пароль", "Полезная нагрузка и подпись", "Исходный код"], correct: 1 }, { q: "Почему секретный ключ должен быть надёжным?", options: ["Для скорости", "Чтобы никто не подделал токен", "Для совместимости"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 32, number: "32", title: "SQLAlchemy ORM", subtitle: "Работа с БД через объекты",
@@ -983,7 +983,7 @@ with app.app_context():
     db.create_all()
 
 print("Таблицы созданы!")`,
-        quiz: { questions: [ { q: "Что такое ORM?", options: ["Object-Relational Mapping", "Online Request Manager", "Object Render Method"], correct: 0 }, { q: "Какой атрибут задаёт первичный ключ?", options: ["primary_key=True", "id=True", "unique=True"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Что такое ORM?", options: ["Object-Relational Mapping", "Online Request Manager", "Object Render Method"], correct: 0 }, { q: "Какой атрибут задаёт первичный ключ?", options: ["primary_key=True", "id=True", "unique=True"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 33, number: "33", title: "Flask Blueprints", subtitle: "Структурирование проекта",
@@ -1016,7 +1016,7 @@ app.register_blueprint(auth_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)`,
-        quiz: { questions: [ { q: "Зачем нужны Blueprints?", options: ["Для рисования схем", "Для модульности кода", "Для ускорения БД"], correct: 1 }, { q: "Как зарегистрировать Blueprint?", options: ["app.add(bp)", "app.register_blueprint(bp)", "app.include(bp)"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Зачем нужны Blueprints?", options: ["Для рисования схем", "Для модульности кода", "Для ускорения БД"], correct: 1 }, { q: "Как зарегистрировать Blueprint?", options: ["app.add(bp)", "app.register_blueprint(bp)", "app.include(bp)"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 34, number: "34", title: "Fetch API на фронтенде", subtitle: "Связь JS и Python",
@@ -1042,7 +1042,7 @@ fetch('/api/data')
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error('Ошибка:', error));`,
-        quiz: { questions: [ { q: "Что возвращает fetch()?", options: ["JSON", "Promise с Response", "HTML строку"], correct: 1 }, { q: "Какой метод для чтения JSON?", options: [".text()", ".json()", ".data()"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что возвращает fetch()?", options: ["JSON", "Promise с Response", "HTML строку"], correct: 1 }, { q: "Какой метод для чтения JSON?", options: [".text()", ".json()", ".data()"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 35, number: "35", title: "Основы WebSockets", subtitle: "Двусторонняя связь",
@@ -1079,7 +1079,7 @@ def handle_message(msg):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)`,
-        quiz: { questions: [ { q: "Отличие WebSocket от HTTP?", options: ["Быстрее для картинок", "Держит постоянное соединение", "Нет отличий"], correct: 1 }, { q: "Для чего используют WebSockets?", options: ["Загрузка CSS", "Чаты и уведомления", "Хранение файлов"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Отличие WebSocket от HTTP?", options: ["Быстрее для картинок", "Держит постоянное соединение", "Нет отличий"], correct: 1 }, { q: "Для чего используют WebSockets?", options: ["Загрузка CSS", "Чаты и уведомления", "Хранение файлов"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 36, number: "36", title: "Деплой: Gunicorn и Nginx", subtitle: "Выкладываем сайт",
@@ -1108,7 +1108,7 @@ gunicorn -w 4 -b 127.0.0.1:8000 app:app</code></pre>
 # gunicorn -w 4 -b 127.0.0.1:8000 app:app
 
 print("Gunicorn запущен!")`,
-        quiz: { questions: [ { q: "Зачем нужен Nginx?", options: ["Для Python кода", "Для раздачи статики и защиты", "Для компиляции"], correct: 1 }, { q: "Что означает -w 4?", options: ["4 порта", "4 рабочих процесса", "4 гигабайта"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Зачем нужен Nginx?", options: ["Для Python кода", "Для раздачи статики и защиты", "Для компиляции"], correct: 1 }, { q: "Что означает -w 4?", options: ["4 порта", "4 рабочих процесса", "4 гигабайта"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 37, number: "37", title: "Основы Docker", subtitle: "Контейнеризация",
@@ -1136,7 +1136,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 CMD ["python", "app.py"]`,
-        quiz: { questions: [ { q: "Как называется файл инструкций?", options: ["Containerfile", "Dockerfile", "Pyfile"], correct: 1 }, { q: "Что делает COPY?", options: ["Копирует файлы в образ", "Копирует образ", "Создаёт папку"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Как называется файл инструкций?", options: ["Containerfile", "Dockerfile", "Pyfile"], correct: 1 }, { q: "Что делает COPY?", options: ["Копирует файлы в образ", "Копирует образ", "Создаёт папку"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 38, number: "38", title: "CI/CD и автотесты", subtitle: "Автоматизация",
@@ -1165,7 +1165,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run tests
         run: echo "Running tests"`,
-        quiz: { questions: [ { q: "Что такое CI?", options: ["Continuous Integration", "Code Interface", "Computer Input"], correct: 0 }, { q: "Где хранятся конфигурации?", options: [".github/workflows/", "/ci/", "/actions/"], correct: 0 } ] }
+        quiz: { questions: [ { q: "Что такое CI?", options: ["Continuous Integration", "Code Interface", "Computer Input"], correct: 0 }, { q: "Где хранятся конфигурации?", options: [".github/workflows/", "/ci/", "/actions/"], correct: 0 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 39, number: "39", title: "ПРАКТИЧЕСКИЙ ЭКЗАМЕН. Уроки 0-38", subtitle: "Напиши REST API с базой данных с нуля",
@@ -1207,7 +1207,7 @@ app.config['SECRET_KEY'] = 'your-secret-key'
 csrf = CSRFProtect(app)
 
 print("CSRF защита активирована")`,
-        quiz: { questions: [ { q: "Что такое XSS?", options: ["Cross-Site Scripting", "Extra Secure Server", "XML Style Sheet"], correct: 0 }, { q: "От чего защищает CSRF?", options: ["От перехвата паролей", "От подделки запросов", "От вирусов"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что такое XSS?", options: ["Cross-Site Scripting", "Extra Secure Server", "XML Style Sheet"], correct: 0 }, { q: "От чего защищает CSRF?", options: ["От перехвата паролей", "От подделки запросов", "От вирусов"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 41, number: "41", title: "Кэширование (Redis)", subtitle: "Ускорение приложения",
@@ -1226,7 +1226,7 @@ print(r.get('foo').decode('utf-8'))</code></pre>
 r = redis.Redis(host='localhost', port=6379, db=0)
 r.set('foo', 'bar')
 print(r.get('foo').decode('utf-8'))`,
-        quiz: { questions: [ { q: "Где хранит данные Redis?", options: ["На диске", "В оперативной памяти", "В облаке"], correct: 1 }, { q: "Цель кэширования?", options: ["Шифрование", "Ускорение отклика", "Резервное копирование"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Где хранит данные Redis?", options: ["На диске", "В оперативной памяти", "В облаке"], correct: 1 }, { q: "Цель кэширования?", options: ["Шифрование", "Ускорение отклика", "Резервное копирование"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 42, number: "42", title: "Асинхронный Python", subtitle: "asyncio",
@@ -1263,7 +1263,7 @@ async def main():
     print("End")
 
 asyncio.run(main())`,
-        quiz: { questions: [ { q: "Какое ключевое слово для асинхронной функции?", options: ["await", "async", "run"], correct: 1 }, { q: "Что делает await?", options: ["Останавливает программу", "Ждёт завершения операции", "Создаёт поток"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Какое ключевое слово для асинхронной функции?", options: ["await", "async", "run"], correct: 1 }, { q: "Что делает await?", options: ["Останавливает программу", "Ждёт завершения операции", "Создаёт поток"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 43, number: "43", title: "Парсинг сайтов", subtitle: "BeautifulSoup",
@@ -1286,7 +1286,7 @@ soup.select('#my-id')  # CSS-селекторы</code></pre>
 html = "<h1>Заголовок сайта</h1><p>Текст</p>"
 soup = BeautifulSoup(html, 'html.parser')
 print(soup.h1.text)`,
-        quiz: { questions: [ { q: "Что делает BeautifulSoup?", options: ["Делает сайты красивыми", "Парсит HTML/XML", "Шифрует данные"], correct: 1 }, { q: "Какой парсер по умолчанию?", options: ["lxml", "html.parser", "xml"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что делает BeautifulSoup?", options: ["Делает сайты красивыми", "Парсит HTML/XML", "Шифрует данные"], correct: 1 }, { q: "Какой парсер по умолчанию?", options: ["lxml", "html.parser", "xml"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 44, number: "44", title: "Загрузка файлов", subtitle: "Работа с S3",
@@ -1316,7 +1316,7 @@ def upload():
 
 if __name__ == '__main__':
     app.run(debug=True)`,
-        quiz: { questions: [ { q: "Где хранятся загруженные файлы?", options: ["request.data", "request.files", "request.forms"], correct: 1 }, { q: "Почему используют S3?", options: ["Дешевле", "Масштабируемость", "Быстрее для CPU"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Где хранятся загруженные файлы?", options: ["request.data", "request.files", "request.forms"], correct: 1 }, { q: "Почему используют S3?", options: ["Дешевле", "Масштабируемость", "Быстрее для CPU"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 45, number: "45", title: "JS для Python-разработчика", subtitle: "Основы JavaScript",
@@ -1341,7 +1341,7 @@ console.log(\`Привет, \${name}\`);
 // document.querySelector('#btn').addEventListener('click', () => {
 //     alert('Нажато!');
 // });`,
-        quiz: { questions: [ { q: "Как объявить переменную в JS?", options: ["var", "let / const", "dim"], correct: 1 }, { q: "Как называется строка с интерполяцией?", options: ["f-строка", "Template literal", "Formatted string"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Как объявить переменную в JS?", options: ["var", "let / const", "dim"], correct: 1 }, { q: "Как называется строка с интерполяцией?", options: ["f-строка", "Template literal", "Formatted string"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 46, number: "46", title: "Основы React", subtitle: "Современный фронтенд",
@@ -1372,7 +1372,7 @@ function Welcome(props) {
 }
 
 // ReactDOM.render(<Welcome name="Артём" />, document.getElementById('root'));`,
-        quiz: { questions: [ { q: "Что такое компонент?", options: ["Функция, возвращающая UI", "База данных", "Маршрут"], correct: 0 }, { q: "Как передавать данные?", options: ["Через state", "Через props", "Через global"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что такое компонент?", options: ["Функция, возвращающая UI", "База данных", "Маршрут"], correct: 0 }, { q: "Как передавать данные?", options: ["Через state", "Через props", "Через global"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 47, number: "47", title: "Архитектура MVC", subtitle: "Паттерны проектирования",
@@ -1405,7 +1405,7 @@ def get_user(id):
 # Controller: @app.route('/user')
 
 print("Архитектура MVC разделяет логику, данные и отображение")`,
-        quiz: { questions: [ { q: "Что отвечает за БД в MVC?", options: ["View", "Controller", "Model"], correct: 2 }, { q: "Где HTML-код?", options: ["Model", "View", "Controller"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что отвечает за БД в MVC?", options: ["View", "Controller", "Model"], correct: 2 }, { q: "Где HTML-код?", options: ["Model", "View", "Controller"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 48, number: "48", title: "Портфолио разработчика", subtitle: "Как найти работу",
@@ -1443,7 +1443,7 @@ python app.py
 # 2. Стек технологий (Python, Flask, SQLite)
 # 3. Инструкция по запуску
 # 4. Скриншоты или GIF работы`,
-        quiz: { questions: [ { q: "Что важно в GitHub профиле?", options: ["Количество звёзд", "Читаемый README и чистый код", "Цвет аватарки"], correct: 1 }, { q: "Сколько проектов в портфолио?", options: ["1", "3-4 качественных", "20 недоделанных"], correct: 1 } ] }
+        quiz: { questions: [ { q: "Что важно в GitHub профиле?", options: ["Количество звёзд", "Читаемый README и чистый код", "Цвет аватарки"], correct: 1 }, { q: "Сколько проектов в портфолио?", options: ["1", "3-4 качественных", "20 недоделанных"], correct: 1 } , { q: "Что такое отступ в Python?", options: ["Пустая строка", "Пробелы в начале строки для блока кода", "Точка с запятой"], correct: 1 }, { q: "Для чего нужны комментарии?", options: ["Для ускорения кода", "Для пояснения кода, игнорируются интерпретатором", "Для скрытия ошибок"], correct: 1 }, { q: "Что выведет print(2+3)?", options: ["23", "5", "2+3"], correct: 1 }, { q: "Какой тип данных у \"привет\"?", options: ["int", "str", "bool"], correct: 1 } ] }
     },
     {
         id: 49, number: "49", title: "🎓 ФИНАЛЬНЫЙ ЭКЗАМЕН. Уроки 0-48", subtitle: "Полноценное веб-приложение с нуля",
